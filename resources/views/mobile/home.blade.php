@@ -6,90 +6,152 @@
 @endsection
 
 @section('content')
-<div class="mobile-content">
-  <div class="greeting-card">
-    <p class="greeting-text">{{ $greeting }},</p>
-    <h1 class="greeting-name">{{ $user->name }}</h1>
+<div class="mobile-content pb-5">
+  <div class="greeting-card mb-4">
+    <div class="d-flex justify-content-between align-items-start">
+      <div>
+        <p class="greeting-text mb-1">{{ $greeting }},</p>
+        <h1 class="greeting-name">{{ $user->name }}</h1>
+      </div>
+      <div class="avatar-circle bg-white text-primary" style="width: 48px; height: 48px; font-size: 20px;">
+        {{ substr($user->name, 0, 1) }}
+      </div>
+    </div>
+    <p class="text-white-50 mt-2 mb-0">Selamat datang di SIGAP Anak</p>
   </div>
 
-  <div class="quick-actions">
+  <div class="quick-actions mb-4">
     <a href="{{ route('mobile.anak.index') }}" class="quick-action-btn">
-      <i class="fas fa-child"></i>
+      <div class="action-icon bg-primary">
+        <i class="fas fa-child"></i>
+      </div>
       <span>Anak Saya</span>
     </a>
     <a href="{{ route('mobile.grafik.index') }}" class="quick-action-btn">
-      <i class="fas fa-chart-line"></i>
+      <div class="action-icon bg-success">
+        <i class="fas fa-chart-line"></i>
+      </div>
       <span>Grafik</span>
     </a>
     <a href="{{ route('mobile.konsultasi.index') }}" class="quick-action-btn">
-      <i class="fas fa-comments"></i>
+      <div class="action-icon bg-warning">
+        <i class="fas fa-comments"></i>
+      </div>
       <span>Konsultasi</span>
     </a>
     <a href="#" class="quick-action-btn">
-      <i class="fas fa-utensils"></i>
+      <div class="action-icon bg-info">
+        <i class="fas fa-utensils"></i>
+      </div>
       <span>Makan</span>
     </a>
   </div>
 
-  <h3 class="section-title">Anak Saya</h3>
-  <div class="mobile-anak-list">
-    @forelse($anak as $item)
-    <a href="{{ route('mobile.anak.show', $item->id) }}" class="mobile-anak-card">
-      <img src="{{ $item->foto ? asset('storage/'.$item->foto) : 'https://via.placeholder.com/100' }}" 
-           class="avatar" 
-           alt="{{ $item->nama }}"
-           onerror="this.src='https://via.placeholder.com/100'">
-      <div class="info">
-        <h4 class="nama">{{ $item->nama }}</h4>
-        <p class="usia">{{ \Carbon\Carbon::parse($item->tanggal_lahir)->diffInMonths(now()) }} bulan</p>
-        @if($item->latestPemeriksaan)
-        <span class="status-badge {{ $item->latestPemeriksaan->status_gizi_akhir }}">
-          {{ ucfirst($item->latestPemeriksaan->status_gizi_akhir ?? 'belum') }}
-        </span>
-        @else
-        <span class="status-badge">Belum periksa</span>
-        @endif
-      </div>
-      <i class="fas fa-chevron-right arrow"></i>
-    </a>
-    @empty
-    <div class="text-center py-4">
-      <i class="fas fa-child fa-3x text-muted mb-3"></i>
-      <p class="text-muted">Belum ada data anak</p>
-      <a href="#" class="btn btn-primary">Tambah Anak</a>
-    </div>
-    @endforelse
+  @if($anak->count() > 0)
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="section-title mb-0">
+      <i class="fas fa-child text-primary me-2"></i>Anak Saya
+    </h4>
+    <span class="badge bg-primary rounded-pill">{{ $anak->count() }}</span>
   </div>
+  
+  <div class="mobile-anak-list mb-4">
+    @foreach($anak as $item)
+    <a href="{{ route('mobile.anak.show', $item->id) }}" class="mobile-anak-card">
+      <div class="avatar-circle bg-{{ $item->jenis_kelamin == 'L' ? 'primary' : 'info' }} text-white" style="width: 56px; height: 56px; font-size: 24px;">
+        {{ substr($item->nama, 0, 1) }}
+      </div>
+      <div class="info flex-grow-1">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h4 class="nama mb-1">{{ $item->nama }}</h4>
+            <p class="usia mb-1">
+              <i class="fas fa-birthday-cake me-1"></i>
+              {{ \Carbon\Carbon::parse($item->tanggal_lahir)->format('d M Y') }}
+            </p>
+          </div>
+          <i class="fas fa-chevron-right text-muted"></i>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-2">
+          <span class="text-muted small">
+            <i class="fas fa-clock me-1"></i>{{ \Carbon\Carbon::parse($item->tanggal_lahir)->diffInMonths(now()) }} bulan
+          </span>
+          @if($item->latestPemeriksaan && $item->latestPemeriksaan->status_gizi_akhir)
+          <span class="badge bg-{{ 
+              $item->latestPemeriksaan->status_gizi_akhir == 'normal' ? 'success' : 
+              ($item->latestPemeriksaan->status_gizi_akhir == 'gizi_buruk' || $item->latestPemeriksaan->status_gizi_akhir == 'wasting' ? 'danger' : 
+              ($item->latestPemeriksaan->status_gizi_akhir == 'stunting' || $item->latestPemeriksaan->status_gizi_akhir == 'underweight' ? 'warning' : 'primary'))
+          }}">
+            {{ ucfirst(str_replace('_', ' ', $item->latestPemeriksaan->status_gizi_akhir)) }}
+          </span>
+          @else
+          <span class="badge bg-secondary">Belum Periksa</span>
+          @endif
+        </div>
+      </div>
+    </a>
+    @endforeach
+  </div>
+  @else
+  <div class="card text-center py-5 mb-4">
+    <i class="fas fa-child fa-4x text-muted mb-3"></i>
+    <h5 class="text-muted">Belum ada data anak</h5>
+    <p class="text-muted small">Silakan hubungi tenaga kesehatan untuk mendaftarkan anak Anda</p>
+  </div>
+  @endif
 
   @if($jadwalMendatang->count() > 0)
-  <h3 class="section-title mt-4">Jadwal Posyandu</h3>
-  @foreach($jadwalMendatang as $jadwal)
-  <div class="mobile-list-item">
-    <div class="icon">
-      <i class="fas fa-calendar"></i>
-    </div>
-    <div style="flex: 1;">
-      <div class="label">{{ $jadwal->tema ?? 'Posyandu' }}</div>
-      <div class="value">{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d M Y') }} - {{ $jadwal->jam_mulai }}</div>
-    </div>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="section-title mb-0">
+      <i class="fas fa-calendar-check text-success me-2"></i>Jadwal Posyandu
+    </h4>
+    <a href="#" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
   </div>
-  @endforeach
+  
+  <div class="card mb-4 border-0 shadow-sm">
+    @foreach($jadwalMendatang->take(3) as $jadwal)
+    <div class="mobile-list-item border-0">
+      <div class="icon bg-success bg-opacity-10">
+        <i class="fas fa-calendar text-success"></i>
+      </div>
+      <div class="flex-grow-1">
+        <div class="label fw-semibold">{{ $jadwal->tema ?? 'Posyandu' }}</div>
+        <div class="value text-muted small">
+          <i class="fas fa-clock me-1"></i>{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d M Y') }} - {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }}
+        </div>
+      </div>
+    </div>
+    @endforeach
+  </div>
   @endif
 
   @if($artikel->count() > 0)
-  <h3 class="section-title mt-4">Artikel Edukasi</h3>
-  <div class="mobile-anak-list">
-    @foreach($artikel as $article)
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="section-title mb-0">
+      <i class="fas fa-book-medical text-info me-2"></i>Artikel Edukasi
+    </h4>
+    <a href="#" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
+  </div>
+  
+  <div class="mobile-anak-list mb-4">
+    @foreach($artikel->take(3) as $article)
     <a href="#" class="mobile-anak-card">
-      <img src="{{ $article->gambar ? asset('storage/'.$article->gambar) : 'https://via.placeholder.com/100' }}" 
-           class="avatar" 
-           alt="{{ $article->judul }}"
-           onerror="this.src='https://via.placeholder.com/100'">
-      <div class="info">
-        <h4 class="nama">{{ $article->judul }}</h4>
-        <p class="usia">{{ $article->kategori }}</p>
+      <div class="avatar-circle bg-info text-white" style="width: 56px; height: 56px; font-size: 24px;">
+        <i class="fas fa-book-open"></i>
       </div>
-      <i class="fas fa-chevron-right arrow"></i>
+      <div class="info flex-grow-1">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h4 class="nama mb-1">{{ $article->judul }}</h4>
+            <span class="badge bg-{{ 
+                $article->kategori == 'nutrisi' ? 'success' : 
+                ($article->kategori == 'imunisasi' ? 'primary' : 
+                ($article->kategori == 'perkembangan' ? 'warning' : 'info'))
+            }}">{{ ucfirst($article->kategori) }}</span>
+          </div>
+          <i class="fas fa-chevron-right text-muted"></i>
+        </div>
+      </div>
     </a>
     @endforeach
   </div>

@@ -11,7 +11,7 @@
 <div class="page-header">
   <div>
     <h1 class="page-title">Data Anak</h1>
-    <p class="page-subtitle">Kelola data anak yang terdaftar</p>
+    <p class="page-subtitle">Kelola data anak yang terdaftar di sistem</p>
   </div>
   <a href="{{ route('admin.anak.create') }}" class="btn btn-primary">
     <i class="fas fa-plus me-2"></i>Tambah Anak
@@ -19,79 +19,70 @@
 </div>
 
 <div class="card">
-  <div class="card-body">
-    <form method="GET" class="mb-4">
-      <div class="row g-3">
-        <div class="col-md-3">
-          <input type="text" name="search" class="form-control" placeholder="Cari nama atau NIK..." value="{{ request('search') }}">
-        </div>
-        <div class="col-md-2">
-          <select name="jenis_kelamin" class="form-select">
-            <option value="">Semua Jenis Kelamin</option>
-            <option value="L" {{ request('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
-            <option value="P" {{ request('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <select name="status" class="form-select">
-            <option value="">Semua Status</option>
-            <option value="aktif" {{ request('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
-            <option value="pindah" {{ request('status') == 'pindah' ? 'selected' : '' }}>Pindah</option>
-            <option value="meninggal" {{ request('status') == 'meninggal' ? 'selected' : '' }}>Meninggal</option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <select name="faskes_id" class="form-select">
-            <option value="">Semua Faskes</option>
-            @foreach($faskes as $f)
-            <option value="{{ $f->id }}" {{ request('faskes_id') == $f->id ? 'selected' : '' }}>{{ $f->nama }}</option>
-            @endforeach
-          </select>
-        </div>
-        <div class="col-md-2">
-          <button type="submit" class="btn btn-secondary w-100">
-            <i class="fas fa-search me-2"></i>Cari
-          </button>
-        </div>
-      </div>
-    </form>
+  <div class="card-header bg-white border-bottom py-3">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <h5 class="mb-0">
+        <i class="fas fa-users text-primary me-2"></i>Daftar Anak
+        <span class="badge bg-secondary ms-2">{{ $anak->total() }}</span>
+      </h5>
+      <form method="GET" class="d-flex gap-2">
+        <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari nama atau NIK..." value="{{ request('search') }}" style="width: 180px;">
+        <select name="jenis_kelamin" class="form-select form-select-sm" style="width: 140px;">
+          <option value="">Semua JK</option>
+          <option value="L" {{ request('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
+          <option value="P" {{ request('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
+        </select>
+        <select name="status" class="form-select form-select-sm" style="width: 120px;">
+          <option value="">Semua Status</option>
+          <option value="aktif" {{ request('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+          <option value="pindah" {{ request('status') == 'pindah' ? 'selected' : '' }}>Pindah</option>
+          <option value="meninggal" {{ request('status') == 'meninggal' ? 'selected' : '' }}>Meninggal</option>
+        </select>
+        <button type="submit" class="btn btn-sm btn-secondary">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+  </div>
 
+  <div class="card-body p-0">
     <div class="table-responsive">
-      <table class="table table-hover table-bordered">
+      <table class="table table-hover mb-0">
         <thead class="table-light">
           <tr>
-            <th>No</th>
+            <th class="ps-4" style="width: 50px;">No</th>
             <th>Nama Anak</th>
             <th>NIK</th>
-            <th>Jenis Kelamin</th>
+            <th>JK</th>
             <th>Tanggal Lahir</th>
             <th>Usia</th>
-            <th>Berat</th>
-            <th>Tinggi</th>
+            <th>BB</th>
+            <th>TB</th>
             <th>Status Gizi</th>
             <th>Faskes</th>
             <th>Status</th>
-            <th>Aksi</th>
+            <th class="text-center" style="width: 120px;">Aksi</th>
           </tr>
         </thead>
         <tbody>
           @forelse($anak as $index => $item)
           <tr>
-            <td>{{ $anak->firstItem() + $index }}</td>
+            <td class="ps-4 text-muted">{{ $anak->firstItem() + $index }}</td>
             <td>
               <div class="d-flex align-items-center">
-                <img src="{{ $item->foto ? asset('storage/'.$item->foto) : 'https://via.placeholder.com/40' }}" 
-                     class="rounded-circle me-2" width="40" height="40" alt="{{ $item->nama }}">
+                <div class="avatar-circle bg-{{ $item->jenis_kelamin == 'L' ? 'primary' : 'info' }} text-white me-3">
+                  {{ substr($item->nama, 0, 1) }}
+                </div>
                 <div>
-                  <strong>{{ $item->nama }}</strong>
-                  <br><small class="text-muted">{{ $item->ibu->name ?? '-' }}</small>
+                  <h6 class="mb-0">{{ $item->nama }}</h6>
+                  <small class="text-muted">{{ $item->ibu->name ?? '-' }}</small>
                 </div>
               </div>
             </td>
-            <td>{{ $item->nik_anak ?? '-' }}</td>
+            <td><code>{{ $item->nik_anak ?? '-' }}</code></td>
             <td>
               <span class="badge bg-{{ $item->jenis_kelamin == 'L' ? 'primary' : 'info' }}">
-                {{ $item->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}
+                {{ $item->jenis_kelamin == 'L' ? 'L' : 'P' }}
               </span>
             </td>
             <td>{{ \Carbon\Carbon::parse($item->tanggal_lahir)->format('d M Y') }}</td>
@@ -102,11 +93,19 @@
               @endphp
               {{ $usiaText }}
             </td>
-            <td>
-              {{ $item->latestPemeriksaan ? $item->latestPemeriksaan->berat_badan . ' kg' : '-' }}
+            <td class="text-center">
+              @if($item->latestPemeriksaan)
+              <strong>{{ $item->latestPemeriksaan->berat_badan }}</strong> <small class="text-muted">kg</small>
+              @else
+              <span class="text-muted">-</span>
+              @endif
             </td>
-            <td>
-              {{ $item->latestPemeriksaan ? $item->latestPemeriksaan->tinggi_badan . ' cm' : '-' }}
+            <td class="text-center">
+              @if($item->latestPemeriksaan)
+              <strong>{{ $item->latestPemeriksaan->tinggi_badan }}</strong> <small class="text-muted">cm</small>
+              @else
+              <span class="text-muted">-</span>
+              @endif
             </td>
             <td>
               @if($item->latestPemeriksaan && $item->latestPemeriksaan->status_gizi_akhir)
@@ -121,28 +120,30 @@
               <span class="badge bg-secondary">Belum</span>
               @endif
             </td>
-            <td>{{ $item->faskes->nama ?? '-' }}</td>
+            <td>
+              <small>{{ $item->faskes->nama ?? '-' }}</small>
+            </td>
             <td>
               @if($item->status == 'aktif')
-              <span class="badge bg-success">Aktif</span>
+              <span class="badge bg-success"><i class="fas fa-check me-1"></i>Aktif</span>
               @elseif($item->status == 'pindah')
-              <span class="badge bg-warning">Pindah</span>
+              <span class="badge bg-warning"><i class="fas fa-arrow-right me-1"></i>Pindah</span>
               @else
-              <span class="badge bg-danger">Meninggal</span>
+              <span class="badge bg-danger"><i class="fas fa-times me-1"></i>Meninggal</span>
               @endif
             </td>
             <td>
-              <div class="action-buttons">
-                <a href="{{ route('admin.anak.show', $item->id) }}" class="btn btn-sm btn-info" title="Lihat">
+              <div class="d-flex gap-1 justify-content-center">
+                <a href="{{ route('admin.anak.show', $item->id) }}" class="btn btn-sm btn-outline-info" title="Lihat">
                   <i class="fas fa-eye"></i>
                 </a>
-                <a href="{{ route('admin.anak.edit', $item->id) }}" class="btn btn-sm btn-warning" title="Edit">
+                <a href="{{ route('admin.anak.edit', $item->id) }}" class="btn btn-sm btn-outline-warning" title="Edit">
                   <i class="fas fa-edit"></i>
                 </a>
                 <form action="{{ route('admin.anak.destroy', $item->id) }}" method="POST" class="d-inline">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" class="btn btn-sm btn-danger btn-delete" title="Hapus" data-title="Hapus Data Anak" data-text="Apakah Anda yakin ingin menghapus data {{ $item->nama }}?">
+                  <button type="submit" class="btn btn-sm btn-outline-danger btn-delete" title="Hapus" data-title="Hapus Data Anak" data-text="Apakah Anda yakin ingin menghapus data {{ $item->nama }}?">
                     <i class="fas fa-trash"></i>
                   </button>
                 </form>
@@ -151,19 +152,25 @@
           </tr>
           @empty
           <tr>
-            <td colspan="12" class="text-center py-4">
-              <i class="fas fa-child fa-3x text-muted mb-3 d-block"></i>
-              <p class="text-muted">Tidak ada data anak</p>
+            <td colspan="12" class="text-center py-5">
+              <i class="fas fa-child fa-4x text-muted mb-3 d-block"></i>
+              <h5 class="text-muted">Tidak ada data anak</h5>
+              <p class="text-muted">Silakan tambah data anak terlebih dahulu</p>
+              <a href="{{ route('admin.anak.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Tambah Anak
+              </a>
             </td>
           </tr>
           @endforelse
         </tbody>
       </table>
     </div>
-
-    <div class="mt-3">
-      {{ $anak->links() }}
-    </div>
   </div>
+
+  @if($anak->hasPages())
+  <div class="card-footer bg-white py-3">
+    {{ $anak->links() }}
+  </div>
+  @endif
 </div>
 @endsection
