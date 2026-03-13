@@ -31,17 +31,17 @@ class PemeriksaanController extends Controller
             $query->where('status_gizi_akhir', $request->status_gizi);
         }
 
-        $pemeriksaan = $query->orderBy('tanggal_periksa', 'desc')->paginate(15);
+        $pemeriksaans = $query->orderBy('tanggal_periksa', 'desc')->paginate(15);
         
-        return view('admin.pemeriksaan.index', compact('pemeriksaan'));
+        return view('admin.pemeriksaan.index', compact('pemeriksaans'));
     }
 
     public function create()
     {
-        $anak = Anak::where('status', 'aktif')->orderBy('nama')->get();
+        $anaks = Anak::where('status', 'aktif')->orderBy('nama')->get();
         $posyandu = FasilitasKesehatan::where('tipe', 'posyandu')->where('is_active', true)->get();
         
-        return view('admin.pemeriksaan.create', compact('anak', 'posyandu'));
+        return view('admin.pemeriksaan.create', compact('anaks', 'posyandu'));
     }
 
     public function store(Request $request)
