@@ -144,9 +144,14 @@ class PemeriksaanSeeder extends Seeder
     }
 
     private function getClosestKey($target, $keys) {
+        if (empty($keys)) {
+            return 0;
+        }
+        $keys = array_values($keys);
         return array_reduce($keys, function($carry, $item) use ($target) {
-            return abs($item - $target) < abs($carry - $target) ? $item : $carry;
-        });
+            $carryVal = is_numeric($carry) ? $carry : 0;
+            return abs($item - $target) < abs($carryVal - $target) ? $item : $carry;
+        }, $keys[0]);
     }
 
     private function calculateZScore($measurement, $median, $sd) {
