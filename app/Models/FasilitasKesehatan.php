@@ -11,6 +11,8 @@ class FasilitasKesehatan extends Model
 {
     use HasFactory;
 
+    protected $table = 'fasilitas_kesehatan';
+
     protected $fillable = [
         'nama',
         'tipe',

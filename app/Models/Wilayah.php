@@ -12,6 +12,8 @@ class Wilayah extends Model
 {
     use HasFactory;
 
+    protected $table = 'wilayah';
+
     protected $fillable = [
         'nama',
         'tipe',

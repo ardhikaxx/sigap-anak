@@ -10,6 +10,8 @@ class Imunisasi extends Model
 {
     use HasFactory;
 
+    protected $table = 'imunisasi';
+
     protected $fillable = [
         'anak_id',
         'jenis_vaksin',
