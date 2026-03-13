@@ -130,19 +130,6 @@ sigap-anak/
 
 ---
 
-## 🎨 Desain & Warna
-
-Sistem menggunakan palet warna berikut:
-
-| Warna | Kode | Penggunaan |
-|-------|------|------------|
-| Primary | `#2E86AB` | Biru utama (navigasi, tombol) |
-| Secondary | `#57CC99` | Hijau sehat (status normal) |
-| Warning | `#FFB347` | Oranye (peringatan) |
-| Danger | `#FF6B6B` | Merah (gizi buruk, wasting) |
-
----
-
 ## 📊 Status Gizi
 
 Sistem mendeteksi status gizi berdasarkan standar WHO:
@@ -152,18 +139,6 @@ Sistem mendeteksi status gizi berdasarkan standar WHO:
 - **Wasting** - Berat badan menurut tinggi badan di bawah standar
 - **Underweight** - Berat badan menurut umur di bawah standar
 - **Overweight/Obesitas** - Berat badan menurut tinggi badan di atas standar
-
----
-
-## 📝 Lisensi
-
-Proyek ini adalah proyek open source untuk kepentingan kesehatan masyarakat.
-
----
-
-## 👨‍💻 Kontributor
-
-- Tim Pengembang SIGAP Anak
 
 ---
 
