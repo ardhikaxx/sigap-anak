@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AnakController;
 use App\Http\Controllers\Admin\PemeriksaanController;
+use App\Http\Controllers\Admin\PosyanduController;
 use App\Http\Controllers\Mobile\HomeController;
 use App\Http\Controllers\Mobile\AnakController as MobileAnakController;
 use App\Http\Controllers\Mobile\GrafikController;
@@ -30,6 +31,15 @@ Route::middleware(['auth'])->group(function () {
         Route::post('pemeriksaan', [PemeriksaanController::class, 'store'])->name('admin.pemeriksaan.store');
         Route::get('pemeriksaan/{pemeriksaan}', [PemeriksaanController::class, 'show'])->name('admin.pemeriksaan.show');
         Route::delete('pemeriksaan/{pemeriksaan}', [PemeriksaanController::class, 'destroy'])->name('admin.pemeriksaan.destroy');
+
+        Route::get('posyandu', [PosyanduController::class, 'index'])->name('admin.posyandu.index');
+        Route::get('posyandu/create', [PosyanduController::class, 'create'])->name('admin.posyandu.create');
+        Route::post('posyandu', [PosyanduController::class, 'store'])->name('admin.posyandu.store');
+        Route::get('posyandu/{jadwal}', [PosyanduController::class, 'show'])->name('admin.posyandu.show');
+        Route::get('posyandu/{jadwal}/absensi', [PosyanduController::class, 'absensi'])->name('admin.posyandu.absensi');
+        Route::post('posyandu/{jadwal}/absensi', [PosyanduController::class, 'updateAbsensi'])->name('admin.posyandu.updateAbsensi');
+        Route::post('posyandu/{jadwal}/status', [PosyanduController::class, 'updateStatus'])->name('admin.posyandu.updateStatus');
+        Route::delete('posyandu/{jadwal}', [PosyanduController::class, 'destroy'])->name('admin.posyandu.destroy');
     });
 
     Route::prefix('mobile')->group(function () {
