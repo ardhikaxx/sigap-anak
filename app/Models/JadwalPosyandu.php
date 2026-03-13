@@ -11,6 +11,8 @@ class JadwalPosyandu extends Model
 {
     use HasFactory;
 
+    protected $table = 'jadwal_posyandu';
+
     protected $fillable = [
         'faskes_id',
         'tanggal',
@@ -25,8 +27,6 @@ class JadwalPosyandu extends Model
 
     protected $casts = [
         'tanggal' => 'date',
-        'jam_mulai' => 'time',
-        'jam_selesai' => 'time',
     ];
 
     public function faskes(): BelongsTo
@@ -41,6 +41,6 @@ class JadwalPosyandu extends Model
 
     public function kehadiran(): HasMany
     {
-        return $this->hasMany(KehadiranPosyandu::class);
+        return $this->hasMany(KehadiranPosyandu::class, 'jadwal_id');
     }
 }

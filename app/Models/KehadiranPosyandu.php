@@ -10,6 +10,8 @@ class KehadiranPosyandu extends Model
 {
     use HasFactory;
 
+    protected $table = 'kehadiran_posyandu';
+
     protected $fillable = [
         'jadwal_id',
         'anak_id',
@@ -23,7 +25,7 @@ class KehadiranPosyandu extends Model
 
     public function jadwal(): BelongsTo
     {
-        return $this->belongsTo(JadwalPosyandu::class);
+        return $this->belongsTo(JadwalPosyandu::class, 'jadwal_id');
     }
 
     public function anak(): BelongsTo
