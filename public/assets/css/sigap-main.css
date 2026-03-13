@@ -201,6 +201,24 @@ h4 { font-size: 1.1rem; font-weight: 600; }
   color: var(--sigap-info);
 }
 
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.avatar-circle.bg-primary { background: var(--sigap-primary); color: white; }
+.avatar-circle.bg-secondary { background: var(--sigap-secondary); color: white; }
+.avatar-circle.bg-info { background: var(--sigap-info); color: white; }
+.avatar-circle.bg-success { background: var(--sigap-secondary); color: white; }
+.avatar-circle.bg-warning { background: var(--sigap-warning); color: white; }
+.avatar-circle.bg-danger { background: var(--sigap-accent); color: white; }
+
 .table-responsive {
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -226,6 +244,15 @@ h4 { font-size: 1.1rem; font-weight: 600; }
 
 .table tbody tr:hover {
   background-color: #f8fafc;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid var(--sigap-border);
+}
+
+.table-light {
+  background-color: var(--sigap-light-bg);
 }
 
 .badge {
