@@ -11,6 +11,8 @@ class Anak extends Model
 {
     use HasFactory;
 
+    protected $table = 'anak';
+
     protected $fillable = [
         'nama',
         'nik_anak',
@@ -71,6 +73,11 @@ class Anak extends Model
     public function pemeriksaan(): HasMany
     {
         return $this->hasMany(Pemeriksaan::class);
+    }
+
+    public function latestPemeriksaan()
+    {
+        return $this->hasOne(Pemeriksaan::class)->latestOfMany();
     }
 
     public function riwayatGizi(): HasMany
