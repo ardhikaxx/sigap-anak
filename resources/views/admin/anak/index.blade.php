@@ -57,16 +57,19 @@
     </form>
 
     <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
+      <table class="table table-hover table-bordered">
+        <thead class="table-light">
           <tr>
             <th>No</th>
-            <th>Nama</th>
+            <th>Nama Anak</th>
             <th>NIK</th>
             <th>Jenis Kelamin</th>
             <th>Tanggal Lahir</th>
             <th>Usia</th>
+            <th>Berat</th>
+            <th>Tinggi</th>
             <th>Status Gizi</th>
+            <th>Faskes</th>
             <th>Status</th>
             <th>Aksi</th>
           </tr>
@@ -86,18 +89,39 @@
               </div>
             </td>
             <td>{{ $item->nik_anak ?? '-' }}</td>
-            <td>{{ $item->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
-            <td>{{ \Carbon\Carbon::parse($item->tanggal_lahir)->format('d M Y') }}</td>
-            <td>{{ \Carbon\Carbon::parse($item->tanggal_lahir)->diffInMonths(now()) }} bln</td>
             <td>
-              @if($item->latestPemeriksaan)
-              <span class="status-badge {{ $item->latestPemeriksaan->status_gizi_akhir }}">
-                {{ ucfirst($item->latestPemeriksaan->status_gizi_akhir ?? 'belum') }}
+              <span class="badge bg-{{ $item->jenis_kelamin == 'L' ? 'primary' : 'info' }}">
+                {{ $item->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}
+              </span>
+            </td>
+            <td>{{ \Carbon\Carbon::parse($item->tanggal_lahir)->format('d M Y') }}</td>
+            <td>
+              @php
+                $usia = \Carbon\Carbon::parse($item->tanggal_lahir)->diff(now());
+                $usiaText = $usia->y > 0 ? $usia->y . ' thn' : ($usia->m > 0 ? $usia->m . ' bln' : $usia->d . ' hr');
+              @endphp
+              {{ $usiaText }}
+            </td>
+            <td>
+              {{ $item->latestPemeriksaan ? $item->latestPemeriksaan->berat_badan . ' kg' : '-' }}
+            </td>
+            <td>
+              {{ $item->latestPemeriksaan ? $item->latestPemeriksaan->tinggi_badan . ' cm' : '-' }}
+            </td>
+            <td>
+              @if($item->latestPemeriksaan && $item->latestPemeriksaan->status_gizi_akhir)
+              <span class="badge bg-{{ 
+                  $item->latestPemeriksaan->status_gizi_akhir == 'normal' ? 'success' : 
+                  ($item->latestPemeriksaan->status_gizi_akhir == 'gizi_buruk' || $item->latestPemeriksaan->status_gizi_akhir == 'wasting' ? 'danger' : 
+                  ($item->latestPemeriksaan->status_gizi_akhir == 'stunting' || $item->latestPemeriksaan->status_gizi_akhir == 'underweight' ? 'warning' : 'primary'))
+              }}">
+                {{ ucfirst(str_replace('_', ' ', $item->latestPemeriksaan->status_gizi_akhir)) }}
               </span>
               @else
               <span class="badge bg-secondary">Belum</span>
               @endif
             </td>
+            <td>{{ $item->faskes->nama ?? '-' }}</td>
             <td>
               @if($item->status == 'aktif')
               <span class="badge bg-success">Aktif</span>
@@ -127,8 +151,8 @@
           </tr>
           @empty
           <tr>
-            <td colspan="9" class="text-center py-4">
-              <i class="fas fa-child fa-3x text-muted mb-3"></i>
+            <td colspan="12" class="text-center py-4">
+              <i class="fas fa-child fa-3x text-muted mb-3 d-block"></i>
               <p class="text-muted">Tidak ada data anak</p>
             </td>
           </tr>
