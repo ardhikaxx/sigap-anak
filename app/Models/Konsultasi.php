@@ -11,6 +11,8 @@ class Konsultasi extends Model
 {
     use HasFactory;
 
+    protected $table = 'konsultasi';
+
     protected $fillable = [
         'anak_id',
         'orangtua_id',
