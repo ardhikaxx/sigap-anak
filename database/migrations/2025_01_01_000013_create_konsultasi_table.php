@@ -10,9 +10,11 @@ return new class extends Migration
     {
         Schema::create('konsultasi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('anak_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('orangtua_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('nakes_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('anak_id')->nullable()->constrained('anak')->onDelete('cascade');
+            $table->unsignedBigInteger('orangtua_id');
+            $table->foreign('orangtua_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('nakes_id')->nullable();
+            $table->foreign('nakes_id')->references('id')->on('users')->onDelete('set null');
             $table->enum('tipe', ['chat', 'video_call', 'tatap_muka']);
             $table->string('topik', 255);
             $table->enum('status', ['menunggu', 'aktif', 'selesai', 'dibatalkan'])->default('menunggu');

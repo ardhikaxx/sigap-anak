@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('konsumsi_makanan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('anak_id')->constrained()->onDelete('cascade');
+            $table->foreignId('anak_id')->constrained('anak')->onDelete('cascade');
             $table->date('tanggal');
             $table->enum('waktu_makan', ['pagi', 'selingan_pagi', 'siang', 'selingan_sore', 'malam', 'tengah_malam']);
             $table->string('nama_makanan', 150);

@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('pemeriksaan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('anak_id')->constrained()->onDelete('cascade');
-            $table->foreignId('nakes_id')->constrained('users')->onDelete('set null');
+            $table->foreignId('anak_id')->constrained('anak')->onDelete('cascade');
+            $table->unsignedBigInteger('nakes_id')->nullable();
+            $table->foreign('nakes_id')->references('id')->on('users')->onDelete('set null');
             $table->foreignId('posyandu_id')->nullable()->constrained('fasilitas_kesehatan')->onDelete('set null');
             $table->date('tanggal_periksa');
             $table->integer('umur_bulan');

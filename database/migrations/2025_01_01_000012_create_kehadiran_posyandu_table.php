@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('kehadiran_posyandu', function (Blueprint $table) {
             $table->id();
             $table->foreignId('jadwal_id')->constrained('jadwal_posyandu')->onDelete('cascade');
-            $table->foreignId('anak_id')->constrained()->onDelete('cascade');
+            $table->foreignId('anak_id')->constrained('anak')->onDelete('cascade');
             $table->boolean('hadir')->default(false);
             $table->string('keterangan', 255)->nullable();
             $table->timestamps();

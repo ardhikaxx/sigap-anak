@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('str_number', 30)->nullable();
             $table->string('spesialisasi', 100)->nullable();
             $table->foreignId('faskes_id')->nullable()->constrained('fasilitas_kesehatan')->onDelete('set null');
-            $table->foreignId('wilayah_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('wilayah_id')->nullable()->constrained('wilayah')->onDelete('set null');
             $table->json('jadwal_praktek')->nullable();
             $table->string('foto_ktp', 255)->nullable();
             $table->timestamp('verified_at')->nullable();

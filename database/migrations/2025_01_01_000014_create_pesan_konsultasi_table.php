@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('pesan_konsultasi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('konsultasi_id')->constrained()->onDelete('cascade');
-            $table->foreignId('pengirim_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('konsultasi_id')->constrained('konsultasi')->onDelete('cascade');
+            $table->unsignedBigInteger('pengirim_id');
+            $table->foreign('pengirim_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('pesan');
             $table->enum('tipe', ['text', 'image', 'file', 'voice'])->default('text');
             $table->string('file_path', 255)->nullable();

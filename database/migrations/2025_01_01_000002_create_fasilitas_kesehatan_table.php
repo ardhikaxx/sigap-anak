@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama', 150);
             $table->enum('tipe', ['puskesmas', 'posyandu', 'klinik', 'rumah_sakit']);
-            $table->foreignId('wilayah_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('wilayah_id')->nullable()->constrained('wilayah')->onDelete('set null');
             $table->text('alamat')->nullable();
             $table->string('telepon', 20)->nullable();
             $table->string('email', 100)->nullable();

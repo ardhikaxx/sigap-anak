@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreignId('wali_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('faskes_id')->nullable()->constrained('fasilitas_kesehatan')->onDelete('set null');
             $table->foreignId('nakes_pj_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('wilayah_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('wilayah_id')->nullable()->constrained('wilayah')->onDelete('set null');
             $table->enum('status', ['aktif', 'pindah', 'meninggal'])->default('aktif');
             $table->text('catatan_khusus')->nullable();
             $table->timestamps();

@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('audit_log', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('aksi', 100);
             $table->string('tabel', 50)->nullable();
             $table->integer('record_id')->nullable();

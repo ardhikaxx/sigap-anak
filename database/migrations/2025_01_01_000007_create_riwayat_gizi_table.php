@@ -10,9 +10,10 @@ return new class extends Migration
     {
         Schema::create('riwayat_gizi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('anak_id')->constrained()->onDelete('cascade');
-            $table->foreignId('pemeriksaan_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('nakes_id')->constrained('users')->onDelete('set null');
+            $table->foreignId('anak_id')->constrained('anak')->onDelete('cascade');
+            $table->foreignId('pemeriksaan_id')->nullable()->constrained('pemeriksaan')->onDelete('set null');
+            $table->unsignedBigInteger('nakes_id')->nullable();
+            $table->foreign('nakes_id')->references('id')->on('users')->onDelete('set null');
             $table->string('diagnosis_gizi', 255)->nullable();
             $table->string('kode_icd', 20)->nullable();
             $table->text('intervensi')->nullable();

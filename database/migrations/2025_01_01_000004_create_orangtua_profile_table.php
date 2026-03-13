@@ -15,7 +15,7 @@ return new class extends Migration
             $table->date('tanggal_lahir')->nullable();
             $table->enum('jenis_kelamin', ['L', 'P'])->nullable();
             $table->text('alamat')->nullable();
-            $table->foreignId('wilayah_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('wilayah_id')->nullable()->constrained('wilayah')->onDelete('set null');
             $table->string('pekerjaan', 100)->nullable();
             $table->enum('pendidikan', ['SD', 'SMP', 'SMA', 'D3', 'S1', 'S2', 'S3', 'Lainnya'])->nullable();
             $table->enum('penghasilan', ['<1jt', '1-3jt', '3-5jt', '5-10jt', '>10jt'])->nullable();
