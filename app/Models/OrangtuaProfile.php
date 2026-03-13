@@ -10,6 +10,8 @@ class OrangtuaProfile extends Model
 {
     use HasFactory;
 
+    protected $table = 'orangtua_profile';
+
     protected $fillable = [
         'user_id',
         'nik',

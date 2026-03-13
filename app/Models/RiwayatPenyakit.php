@@ -10,6 +10,8 @@ class RiwayatPenyakit extends Model
 {
     use HasFactory;
 
+    protected $table = 'riwayat_penyakit';
+
     protected $fillable = [
         'anak_id',
         'nama_penyakit',

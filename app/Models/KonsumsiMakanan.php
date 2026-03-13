@@ -10,6 +10,8 @@ class KonsumsiMakanan extends Model
 {
     use HasFactory;
 
+    protected $table = 'konsumsi_makanan';
+
     protected $fillable = [
         'anak_id',
         'tanggal',

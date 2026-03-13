@@ -10,6 +10,8 @@ class NakesProfile extends Model
 {
     use HasFactory;
 
+    protected $table = 'nakes_profile';
+
     protected $fillable = [
         'user_id',
         'nip',

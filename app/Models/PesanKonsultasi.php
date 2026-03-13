@@ -10,6 +10,8 @@ class PesanKonsultasi extends Model
 {
     use HasFactory;
 
+    protected $table = 'pesan_konsultasi';
+
     protected $fillable = [
         'konsultasi_id',
         'pengirim_id',

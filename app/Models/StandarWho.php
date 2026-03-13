@@ -9,6 +9,8 @@ class StandarWho extends Model
 {
     use HasFactory;
 
+    protected $table = 'standar_who';
+
     protected $fillable = [
         'jenis_kelamin',
         'umur_bulan',

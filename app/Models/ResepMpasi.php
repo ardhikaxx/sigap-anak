@@ -10,6 +10,8 @@ class ResepMpasi extends Model
 {
     use HasFactory;
 
+    protected $table = 'resep_mpasi';
+
     protected $fillable = [
         'nama_resep',
         'deskripsi',
