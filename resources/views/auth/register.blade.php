@@ -143,39 +143,45 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
   <script>
-    // Toggle Password
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    const eyeIcon = document.getElementById('eyeIcon');
+    document.addEventListener('DOMContentLoaded', function() {
+      // Toggle Password
+      const togglePassword = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('eyeIcon');
 
-    togglePassword.addEventListener('click', function() {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      
-      if (type === 'text') {
-        eyeIcon.classList.remove('fa-eye');
-        eyeIcon.classList.add('fa-eye-slash');
-      } else {
-        eyeIcon.classList.remove('fa-eye-slash');
-        eyeIcon.classList.add('fa-eye');
+      if (togglePassword && passwordInput && eyeIcon) {
+        togglePassword.addEventListener('click', function() {
+          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+          passwordInput.setAttribute('type', type);
+          
+          if (type === 'text') {
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+          } else {
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+          }
+        });
       }
-    });
 
-    // Toggle Confirm Password
-    const togglePasswordConfirm = document.getElementById('togglePasswordConfirm');
-    const passwordConfirmInput = document.getElementById('password_confirmation');
-    const eyeIconConfirm = document.getElementById('eyeIconConfirm');
+      // Toggle Confirm Password
+      const togglePasswordConfirm = document.getElementById('togglePasswordConfirm');
+      const passwordConfirmInput = document.getElementById('password_confirmation');
+      const eyeIconConfirm = document.getElementById('eyeIconConfirm');
 
-    togglePasswordConfirm.addEventListener('click', function() {
-      const type = passwordConfirmInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordConfirmInput.setAttribute('type', type);
-      
-      if (type === 'text') {
-        eyeIconConfirm.classList.remove('fa-eye');
-        eyeIconConfirm.classList.add('fa-eye-slash');
-      } else {
-        eyeIconConfirm.classList.remove('fa-eye-slash');
-        eyeIconConfirm.classList.add('fa-eye');
+      if (togglePasswordConfirm && passwordConfirmInput && eyeIconConfirm) {
+        togglePasswordConfirm.addEventListener('click', function() {
+          const type = passwordConfirmInput.getAttribute('type') === 'password' ? 'text' : 'password';
+          passwordConfirmInput.setAttribute('type', type);
+          
+          if (type === 'text') {
+            eyeIconConfirm.classList.remove('fa-eye');
+            eyeIconConfirm.classList.add('fa-eye-slash');
+          } else {
+            eyeIconConfirm.classList.remove('fa-eye-slash');
+            eyeIconConfirm.classList.add('fa-eye');
+          }
+        });
       }
     });
   </script>
