@@ -14,7 +14,10 @@
       <p class="page-subtitle">Selamat datang kembali, <span class="text-primary fw-bold">{{ auth()->user()->name }}</span></p>
     </div>
     <div class="d-flex align-items-center gap-3">
-      <div class="card border-0 shadow-sm">
+      <a href="{{ route('admin.pemeriksaan.create') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Pemeriksaan Baru
+      </a>
+      <div class="card border-0 shadow-sm" style="min-width: 160px;">
         <div class="card-body py-2 px-3">
           <div class="d-flex align-items-center gap-2">
             <div class="bg-primary bg-opacity-10 rounded p-2">
@@ -132,7 +135,7 @@
           <canvas id="statusGiziChart"></canvas>
         </div>
         <div class="d-flex flex-wrap gap-2 justify-content-center">
-          @foreach($statusGizi as $status => $jumlah)
+          @forelse($statusGizi as $status => $jumlah)
             @if($jumlah > 0)
             <span class="badge bg-{{ 
               $status == 'normal' ? 'success' : 
@@ -142,7 +145,9 @@
               {{ ucfirst($status) }} ({{ $jumlah }})
             </span>
             @endif
-          @endforeach
+          @empty
+          <span class="text-muted">Belum ada data</span>
+          @endforelse
         </div>
       </div>
     </div>
@@ -164,7 +169,7 @@
         @if($jadwalMendatang->count() > 0)
           <div class="list-group list-group-flush">
             @foreach($jadwalMendatang->take(5) as $jadwal)
-            <div class="list-group-item border-0 py-3 px-4">
+            <div class="list-group-item border-0 py-3 px-4 hover-bg">
               <div class="d-flex align-items-center">
                 <div class="me-3">
                   <div class="bg-primary bg-opacity-10 rounded p-3 text-center" style="min-width: 60px;">
@@ -236,7 +241,7 @@
             </thead>
             <tbody>
               @foreach($pemeriksaanTerbaru->take(5) as $pemeriksaan)
-              <tr>
+              <tr class="hover-bg">
                 <td class="ps-4">
                   <div class="d-flex align-items-center">
                     <div class="avatar-circle bg-{{ $pemeriksaan->anak->jenis_kelamin == 'L' ? 'primary' : 'info' }} text-white me-2" style="width: 32px; height: 32px; font-size: 12px;">
@@ -302,7 +307,7 @@
             </thead>
             <tbody>
               @foreach($anakBerisiko->take(5) as $anak)
-              <tr>
+              <tr class="hover-bg">
                 <td class="ps-4">
                   <div class="d-flex align-items-center">
                     <div class="avatar-circle bg-danger text-white me-2" style="width: 32px; height: 32px; font-size: 12px;">
@@ -340,6 +345,15 @@
     </div>
   </div>
 </div>
+
+<style>
+.hover-bg {
+  transition: background-color 0.2s ease;
+}
+.hover-bg:hover {
+  background-color: #f8fafc !important;
+}
+</style>
 @endsection
 
 @section('scripts')
