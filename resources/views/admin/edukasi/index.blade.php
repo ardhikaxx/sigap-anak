@@ -207,7 +207,7 @@
           <td>
             <div class="action-group">
               <a href="{{ route('admin.edukasi.show', $e->id) }}" class="btn-icon btn-lihat"><i class="fas fa-eye"></i></a>
-              <a href="{{ route('admin.edokasi.edit', $e->id) }}" class="btn-icon btn-ubah"><i class="fas fa-edit"></i></a>
+              <a href="{{ route('admin.edukasi.edit', $e->id) }}" class="btn-icon btn-ubah"><i class="fas fa-edit"></i></a>
               <form action="{{ route('admin.edukasi.destroy', $e->id) }}" method="POST" class="d-inline">
                 @csrf @method('DELETE')
                 <button type="submit" class="btn-icon btn-hapus btn-delete"><i class="fas fa-trash-can"></i></button>
