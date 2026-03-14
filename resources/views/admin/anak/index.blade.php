@@ -34,182 +34,220 @@
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  .page-header {
-    background: var(--primary);
+  .auth-wrapper {
+    display: flex;
+    min-height: calc(100vh - 140px);
+    background: var(--white);
     border-radius: 24px;
-    padding: 36px 40px;
-    color: white;
-    position: relative;
     overflow: hidden;
-    margin-bottom: 28px;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
   }
 
-  .page-header::before {
+  .auth-sidebar-section {
+    width: 35%;
+    background: var(--primary);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .auth-sidebar-section::before {
     content: '';
     position: absolute;
-    top: -60px;
-    right: -60px;
-    width: 250px;
-    height: 250px;
+    top: -80px;
+    right: -80px;
+    width: 300px;
+    height: 300px;
     background: rgba(255,255,255,0.08);
     border-radius: 50%;
   }
 
-  .page-header::after {
+  .auth-sidebar-section::after {
     content: '';
     position: absolute;
-    bottom: -80px;
-    left: -80px;
-    width: 300px;
-    height: 300px;
+    bottom: -100px;
+    left: -100px;
+    width: 350px;
+    height: 350px;
     background: rgba(255,255,255,0.05);
     border-radius: 50%;
   }
 
-  .header-content {
+  .sidebar-content {
     position: relative;
     z-index: 2;
   }
 
-  .page-title {
-    font-size: 2rem;
+  .sidebar-logo {
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .sidebar-logo i {
+    font-size: 36px;
+    color: var(--white);
+  }
+
+  .sidebar-title {
+    font-size: 1.75rem;
     font-weight: 800;
-    margin-bottom: 6px;
+    color: var(--white);
+    margin-bottom: 8px;
   }
 
-  .page-subtitle {
+  .sidebar-subtitle {
     font-size: 1rem;
-    opacity: 0.9;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 36px;
   }
 
-  .btn-add {
-    background: var(--white);
-    color: var(--primary);
-    border: none;
+  .sidebar-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sidebar-stat-item {
+    background: rgba(255,255,255,0.1);
+    padding: 16px 20px;
     border-radius: 14px;
-    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .sidebar-stat-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 18px;
+  }
+
+  .sidebar-stat-info {
+    flex: 1;
+  }
+
+  .sidebar-stat-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .sidebar-stat-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.75);
+    font-weight: 500;
+  }
+
+  .auth-main-section {
+    width: 65%;
+    padding: 32px;
+  }
+
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .main-title {
+    font-size: 1.25rem;
     font-weight: 700;
-    font-size: 0.95rem;
+    color: var(--dark);
+  }
+
+  .btn-add-new {
+    background: var(--primary);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 22px;
+    font-weight: 600;
+    color: var(--white);
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35);
   }
 
-  .btn-add:hover {
+  .btn-add-new:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    color: var(--primary-dark);
-    background: var(--white);
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.45);
+    color: var(--white);
+    background: var(--primary);
   }
 
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-bottom: 28px;
-  }
-
-  .stat-card {
-    background: var(--white);
-    border-radius: 18px;
-    padding: 24px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--stat-color);
-  }
-
-  .stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 35px rgba(0,0,0,0.1);
-  }
-
-  .stat-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
+  .filter-bar {
+    background: var(--gray-100);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    margin-bottom: 14px;
-    background: var(--stat-bg);
-    color: var(--stat-color);
+    gap: 16px;
+    flex-wrap: wrap;
   }
 
-  .stat-number {
-    font-size: 2.25rem;
-    font-weight: 800;
-    color: var(--dark);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .stat-label {
-    font-size: 0.85rem;
-    color: var(--gray-500);
-    font-weight: 500;
-  }
-
-  .filter-section {
-    background: var(--white);
-    border-radius: 18px;
-    padding: 24px;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    border: 1px solid #e2e8f0;
-  }
-
-  .search-input {
-    width: 100%;
-    padding: 14px 16px 14px 48px;
-    border: 2px solid #e2e8f0;
-    border-radius: 14px;
-    font-size: 0.95rem;
-    transition: all 0.25s ease;
-    background: var(--gray-100);
-  }
-
-  .search-input:focus {
-    border-color: var(--primary);
-    background: var(--white);
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
-  }
-
-  .search-wrapper {
+  .search-box {
+    flex: 1;
+    min-width: 250px;
     position: relative;
   }
 
-  .search-wrapper i {
+  .search-box i {
     position: absolute;
-    left: 18px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--gray-400);
   }
 
-  .filter-select {
-    padding: 14px 18px;
-    border: 2px solid #e2e8f0;
-    border-radius: 14px;
-    font-size: 0.95rem;
+  .search-box input {
+    width: 100%;
+    padding: 12px 16px 12px 46px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    background: var(--white);
     transition: all 0.25s ease;
-    background: var(--gray-100);
+  }
+
+  .search-box input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+  }
+
+  .filter-select {
+    padding: 12px 16px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    background: var(--white);
     cursor: pointer;
+    transition: all 0.25s ease;
+    min-width: 150px;
   }
 
   .filter-select:focus {
@@ -219,10 +257,10 @@
   }
 
   .btn-filter {
-    background: var(--gray-100);
+    background: var(--white);
     border: 2px solid #e2e8f0;
-    border-radius: 14px;
-    padding: 14px 22px;
+    border-radius: 12px;
+    padding: 12px 20px;
     font-weight: 600;
     color: var(--gray-600);
     transition: all 0.25s ease;
@@ -237,48 +275,48 @@
     color: var(--white);
   }
 
-  .table-card {
+  .data-table-card {
     background: var(--white);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
     border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   }
 
-  .table-header {
+  .table-header-bar {
     background: var(--dark);
-    padding: 18px 28px;
+    padding: 16px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .table-title {
+  .table-header-title {
     color: var(--white);
-    font-weight: 700;
-    font-size: 1rem;
+    font-weight: 600;
+    font-size: 0.95rem;
     margin: 0;
   }
 
-  .table-count {
+  .table-header-count {
     background: rgba(255,255,255,0.15);
-    padding: 6px 14px;
+    padding: 5px 12px;
     border-radius: 20px;
     color: rgba(255,255,255,0.9);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
   }
 
-  .data-table {
+  .modern-table {
     width: 100%;
     border-collapse: collapse;
   }
 
-  .data-table thead th {
+  .modern-table thead th {
     background: #f8fafc;
-    padding: 16px 20px;
+    padding: 14px 18px;
     font-weight: 600;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--gray-500);
@@ -286,109 +324,85 @@
     border-bottom: 2px solid #e2e8f0;
   }
 
-  .data-table tbody tr {
+  .modern-table tbody tr {
     transition: all 0.2s ease;
     border-bottom: 1px solid #f1f5f9;
   }
 
-  .data-table tbody tr:hover {
+  .modern-table tbody tr:hover {
     background: var(--gray-100);
   }
 
-  .data-table tbody td {
-    padding: 18px 20px;
+  .modern-table tbody td {
+    padding: 16px 18px;
     vertical-align: middle;
     border: none;
   }
 
-  .child-profile {
+  .profile-cell {
     display: flex;
     align-items: center;
     gap: 14px;
   }
 
-  .child-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
+  .profile-img {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--white);
   }
 
-  .avatar-boy {
-    background: var(--primary);
-  }
+  .img-boy { background: var(--primary); }
+  .img-girl { background: #ec4899; }
 
-  .avatar-girl {
-    background: #ec4899;
-  }
-
-  .child-info strong {
-    display: block;
+  .profile-name {
+    font-weight: 600;
     color: var(--dark);
-    font-weight: 600;
-    margin-bottom: 2px;
+    font-size: 0.9rem;
   }
 
-  .child-info small {
+  .profile-meta {
+    font-size: 0.8rem;
     color: var(--gray-400);
-    font-size: 0.8rem;
   }
 
-  .gender-badge {
-    padding: 8px 14px;
+  .tag-badge {
+    padding: 7px 13px;
     border-radius: 10px;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     display: inline-flex;
     align-items: center;
     gap: 6px;
   }
 
-  .badge-boy {
-    background: rgba(14, 165, 233, 0.1);
-    color: var(--primary-dark);
-  }
+  .tag-boy { background: rgba(14, 165, 233, 0.1); color: var(--primary-dark); }
+  .tag-girl { background: rgba(236, 72, 153, 0.1); color: #be185d; }
 
-  .badge-girl {
-    background: rgba(236, 72, 153, 0.1);
-    color: #be185d;
-  }
-
-  .status-badge {
-    padding: 8px 14px;
+  .status-indicator {
+    padding: 7px 13px;
     border-radius: 10px;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     display: inline-flex;
     align-items: center;
     gap: 6px;
   }
 
-  .badge-active {
-    background: rgba(34, 197, 94, 0.1);
-    color: #16a34a;
-  }
+  .status-active { background: rgba(34, 197, 94, 0.1); color: #16a34a; }
+  .status-moved { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+  .status-passed { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
 
-  .badge-moved {
-    background: rgba(245, 158, 11, 0.1);
-    color: #d97706;
-  }
-
-  .badge-passed {
-    background: rgba(239, 68, 68, 0.1);
-    color: #dc2626;
-  }
-
-  .gizi-badge {
-    padding: 8px 14px;
+  .gizi-indicator {
+    padding: 7px 13px;
     border-radius: 10px;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -401,26 +415,26 @@
   .gizi-overweight { background: rgba(6, 182, 212, 0.1); color: #0891b2; }
   .gizi-none { background: var(--gray-100); color: var(--gray-500); }
 
-  .faskes-tag {
+  .faskes-label {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    padding: 8px 14px;
+    padding: 7px 13px;
     border-radius: 10px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--gray-600);
   }
 
-  .action-buttons {
+  .action-btns {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     justify-content: flex-end;
   }
 
   .btn-action {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -429,93 +443,70 @@
     cursor: pointer;
   }
 
-  .btn-action:hover {
-    transform: scale(1.1);
-  }
+  .btn-action:hover { transform: scale(1.1); }
 
-  .btn-view {
-    background: rgba(14, 165, 233, 0.1);
-    color: var(--primary);
-  }
+  .btn-see { background: rgba(14, 165, 233, 0.1); color: var(--primary); }
+  .btn-see:hover { background: var(--primary); color: var(--white); }
 
-  .btn-view:hover {
-    background: var(--primary);
-    color: var(--white);
-  }
+  .btn-pen { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+  .btn-pen:hover { background: var(--warning); color: var(--white); }
 
-  .btn-edit {
-    background: rgba(245, 158, 11, 0.1);
-    color: var(--warning);
-  }
+  .btn-trash { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+  .btn-trash:hover { background: var(--danger); color: var(--white); }
 
-  .btn-edit:hover {
-    background: var(--warning);
-    color: var(--white);
-  }
-
-  .btn-delete {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-  }
-
-  .btn-delete:hover {
-    background: var(--danger);
-    color: var(--white);
-  }
-
-  .empty-state {
+  .empty-box {
     text-align: center;
-    padding: 80px 24px;
+    padding: 60px 20px;
   }
 
-  .empty-illustration {
-    width: 140px;
-    height: 140px;
+  .empty-img {
+    width: 120px;
+    height: 120px;
     background: var(--gray-100);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 24px;
+    margin: 0 auto 20px;
   }
 
-  .empty-illustration i {
-    font-size: 56px;
+  .empty-img i {
+    font-size: 48px;
     color: var(--gray-400);
   }
 
   .empty-title {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--dark);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
-  .empty-text {
+  .empty-msg {
     color: var(--gray-500);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .export-btn {
     background: var(--primary) !important;
     border: none !important;
-    border-radius: 12px !important;
+    border-radius: 10px !important;
     color: var(--white) !important;
-    padding: 12px 20px !important;
+    padding: 10px 16px !important;
     font-weight: 600 !important;
-    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3) !important;
+    box-shadow: 0 3px 12px rgba(14, 165, 233, 0.3) !important;
     transition: all 0.3s ease !important;
   }
 
   .export-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 18px rgba(14, 165, 233, 0.4) !important;
   }
 
   .dt-search input {
     border: 2px solid #e2e8f0 !important;
     border-radius: 10px !important;
-    padding: 10px 14px !important;
+    padding: 8px 12px !important;
     background: var(--gray-100) !important;
   }
 
@@ -528,18 +519,15 @@
   .dt-length select {
     border: 2px solid #e2e8f0 !important;
     border-radius: 10px !important;
-    padding: 8px 12px !important;
+    padding: 6px 10px !important;
     background: var(--gray-100) !important;
   }
 
-  .dt-info {
-    color: var(--gray-500) !important;
-    font-weight: 500 !important;
-  }
+  .dt-info { color: var(--gray-500) !important; font-weight: 500 !important; }
 
   .dt-paging-button {
     border-radius: 8px !important;
-    margin: 0 4px !important;
+    margin: 0 3px !important;
     border: none !important;
   }
 
@@ -553,106 +541,92 @@
     color: var(--primary) !important;
   }
 
-  @media (max-width: 1200px) {
-    .stats-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  @media (max-width: 1100px) {
+    .auth-wrapper { flex-direction: column; }
+    .auth-sidebar-section { width: 100%; padding: 32px; }
+    .auth-main-section { width: 100%; }
+    .sidebar-stats { flex-direction: row; flex-wrap: wrap; }
+    .sidebar-stat-item { flex: 1; min-width: 140px; }
   }
 
   @media (max-width: 768px) {
-    .page-header {
-      padding: 28px;
-      text-align: center;
-    }
-
-    .page-title {
-      font-size: 1.5rem;
-    }
-
-    .stats-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .stat-number {
-      font-size: 1.75rem;
-    }
-
-    .filter-section .row {
-      gap: 12px;
-    }
-
-    .table-header {
-      flex-direction: column;
-      gap: 12px;
-      text-align: center;
-    }
+    .auth-sidebar-section { padding: 24px; }
+    .auth-main-section { padding: 20px; }
+    .main-header { flex-direction: column; gap: 16px; align-items: stretch; }
+    .filter-bar { flex-direction: column; }
+    .search-box { width: 100%; }
+    .filter-select { width: 100%; }
   }
 </style>
 @endsection
 
 @section('content')
-<div class="page-header">
-  <div class="header-content">
-    <div class="row align-items-center">
-      <div class="col-lg-8">
-        <h1 class="page-title">
-          <i class="fas fa-children me-2"></i>Data Anak
-        </h1>
-        <p class="page-subtitle">Kelola data tumbuh kembang anak dengan lebih mudah</p>
+<div class="auth-wrapper">
+  <div class="auth-sidebar-section">
+    <div class="sidebar-content">
+      <div class="sidebar-logo">
+        <i class="fas fa-children"></i>
       </div>
-      <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-        <a href="{{ route('admin.anak.create') }}" class="btn-add">
-          <i class="fas fa-user-plus"></i>
-          Tambah Anak
-        </a>
+      <h1 class="sidebar-title">Data Anak</h1>
+      <p class="sidebar-subtitle">Kelola data tumbuh kembang anak dengan lebih mudah</p>
+      
+      <div class="sidebar-stats">
+        <div class="sidebar-stat-item">
+          <div class="sidebar-stat-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="sidebar-stat-info">
+            <div class="sidebar-stat-value">{{ $anak->total() }}</div>
+            <div class="sidebar-stat-label">Total Anak</div>
+          </div>
+        </div>
+        <div class="sidebar-stat-item">
+          <div class="sidebar-stat-icon">
+            <i class="fas fa-circle-check"></i>
+          </div>
+          <div class="sidebar-stat-info">
+            <div class="sidebar-stat-value">{{ $anak->where('status', 'aktif')->count() }}</div>
+            <div class="sidebar-stat-label">Anak Aktif</div>
+          </div>
+        </div>
+        <div class="sidebar-stat-item">
+          <div class="sidebar-stat-icon">
+            <i class="fas fa-person"></i>
+          </div>
+          <div class="sidebar-stat-info">
+            <div class="sidebar-stat-value">{{ $anak->where('jenis_kelamin', 'L')->count() }}</div>
+            <div class="sidebar-stat-label">Laki-laki</div>
+          </div>
+        </div>
+        <div class="sidebar-stat-item">
+          <div class="sidebar-stat-icon">
+            <i class="fas fa-person-dress"></i>
+          </div>
+          <div class="sidebar-stat-info">
+            <div class="sidebar-stat-value">{{ $anak->where('jenis_kelamin', 'P')->count() }}</div>
+            <div class="sidebar-stat-label">Perempuan</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="stats-grid">
-  <div class="stat-card" style="--stat-color: #0ea5e9; --stat-bg: rgba(14, 165, 233, 0.1);">
-    <div class="stat-icon">
-      <i class="fas fa-users"></i>
+  <div class="auth-main-section">
+    <div class="main-header">
+      <h2 class="main-title"><i class="fas fa-list me-2"></i>Daftar Data Anak</h2>
+      <a href="{{ route('admin.anak.create') }}" class="btn-add-new">
+        <i class="fas fa-user-plus"></i> Tambah Anak
+      </a>
     </div>
-    <div class="stat-number">{{ $anak->total() }}</div>
-    <div class="stat-label">Total Anak</div>
-  </div>
-  <div class="stat-card" style="--stat-color: #22c55e; --stat-bg: rgba(34, 197, 94, 0.1);">
-    <div class="stat-icon">
-      <i class="fas fa-circle-check"></i>
-    </div>
-    <div class="stat-number">{{ $anak->where('status', 'aktif')->count() }}</div>
-    <div class="stat-label">Anak Aktif</div>
-  </div>
-  <div class="stat-card" style="--stat-color: #0ea5e9; --stat-bg: rgba(14, 165, 233, 0.1);">
-    <div class="stat-icon">
-      <i class="fas fa-person"></i>
-    </div>
-    <div class="stat-number">{{ $anak->where('jenis_kelamin', 'L')->count() }}</div>
-    <div class="stat-label">Laki-laki</div>
-  </div>
-  <div class="stat-card" style="--stat-color: #ec4899; --stat-bg: rgba(236, 72, 153, 0.1);">
-    <div class="stat-icon">
-      <i class="fas fa-person-dress"></i>
-    </div>
-    <div class="stat-number">{{ $anak->where('jenis_kelamin', 'P')->count() }}</div>
-    <div class="stat-label">Perempuan</div>
-  </div>
-</div>
 
-<div class="filter-section">
-  <div class="row g-3 align-items-center">
-    <div class="col-lg-4">
-      <div class="search-wrapper">
+    <div class="filter-bar">
+      <div class="search-box">
         <i class="fas fa-magnifying-glass"></i>
-        <input type="text" id="tableSearch" class="search-input" placeholder="Cari nama atau ibu...">
+        <input type="text" id="tableSearch" placeholder="Cari nama atau ibu...">
       </div>
-    </div>
-    <div class="col-lg-8">
-      <form method="GET" class="d-flex gap-2 justify-content-lg-end flex-wrap">
+      <form method="GET" class="d-flex gap-2 flex-wrap">
         <select name="jenis_kelamin" class="filter-select">
-          <option value="">Semua Jenis Kelamin</option>
+          <option value="">Semua JK</option>
           <option value="L" {{ request('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
           <option value="P" {{ request('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
         </select>
@@ -666,159 +640,159 @@
           <i class="fas fa-filter"></i> Filter
         </button>
         @if(request()->hasAny(['jenis_kelamin', 'status', 'search']))
-        <a href="{{ route('admin.anak.index') }}" class="btn btn-outline-secondary" style="border-radius: 14px; padding: 14px 16px;">
+        <a href="{{ route('admin.anak.index') }}" class="btn btn-outline-secondary" style="border-radius: 12px; padding: 12px 14px;">
           <i class="fas fa-xmark"></i>
         </a>
         @endif
       </form>
     </div>
-  </div>
-</div>
 
-<div class="table-card">
-  @if($anak->count() > 0)
-  <div class="table-header">
-    <h5 class="table-title"><i class="fas fa-list me-2"></i>Daftar Data Anak</h5>
-    <span class="table-count">{{ $anak->total() }} Data</span>
-  </div>
-  <div style="padding: 0; overflow-x: auto;">
-    <table id="anakTable" class="data-table" style="width: 100%">
-      <thead>
-        <tr>
-          <th>Anak</th>
-          <th>Jenis Kelamin</th>
-          <th>Tanggal Lahir</th>
-          <th>Usia</th>
-          <th>Faskes</th>
-          <th>Status Gizi</th>
-          <th>Status</th>
-          <th style="text-align: right;">Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($anak as $item)
-        <tr>
-          <td>
-            <div class="child-profile">
-              <div class="child-avatar avatar-{{ $item->jenis_kelamin == 'L' ? 'boy' : 'girl' }}">
-                {{ strtoupper(substr($item->nama, 0, 1)) }}
-              </div>
-              <div class="child-info">
-                <strong>{{ $item->nama }}</strong>
-                <small>{{ $item->ibu->name ?? '-' }}</small>
-              </div>
-            </div>
-          </td>
-          <td>
-            <span class="gender-badge badge-{{ $item->jenis_kelamin == 'L' ? 'boy' : 'girl' }}">
-              <i class="fas fa-{{ $item->jenis_kelamin == 'L' ? 'person' : 'person-dress' }}"></i>
-              {{ $item->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}
-            </span>
-          </td>
-          <td>
-            <span style="color: var(--gray-600); font-weight: 500;">{{ \Carbon\Carbon::parse($item->tanggal_lahir)->format('d M Y') }}</span>
-          </td>
-          <td>
-            @php
-              $usia = \Carbon\Carbon::parse($item->tanggal_lahir)->diff(now());
-              $usiaText = $usia->y > 0 ? $usia->y . ' th ' . $usia->m . ' bln' : ($usia->m > 0 ? $usia->m . ' bln' : $usia->d . ' hr');
-            @endphp
-            <span style="font-weight: 600; color: var(--primary);">{{ $usiaText }}</span>
-          </td>
-          <td>
-            <span class="faskes-tag">
-              <i class="fas fa-hospital me-1" style="color: var(--gray-400);"></i>
-              {{ $item->faskes->nama ?? '-' }}
-            </span>
-          </td>
-          <td>
-            @if($item->latestPemeriksaan && $item->latestPemeriksaan->status_gizi_akhir)
-              @php
-                $status = $item->latestPemeriksaan->status_gizi_akhir;
-                $badgeClass = 'gizi-none';
-                $badgeIcon = 'fas fa-minus';
-                $badgeText = '-';
-                
-                if($status == 'normal') {
-                  $badgeClass = 'gizi-normal';
-                  $badgeIcon = 'fas fa-check';
-                  $badgeText = 'Normal';
-                } elseif($status == 'gizi_buruk' || $status == 'wasting') {
-                  $badgeClass = 'gizi-buruk';
-                  $badgeIcon = 'fas fa-triangle-exclamation';
-                  $badgeText = 'Gizi Buruk';
-                } elseif($status == 'stunting') {
-                  $badgeClass = 'gizi-stunting';
-                  $badgeIcon = 'fas fa-arrow-down';
-                  $badgeText = 'Stunting';
-                } elseif($status == 'underweight') {
-                  $badgeClass = 'gizi-underweight';
-                  $badgeIcon = 'fas fa-minus';
-                  $badgeText = 'Underweight';
-                } elseif($status == 'overweight') {
-                  $badgeClass = 'gizi-overweight';
-                  $badgeIcon = 'fas fa-arrow-up';
-                  $badgeText = 'Overweight';
-                }
-              @endphp
-              <span class="gizi-badge {{ $badgeClass }}">
-                <i class="{{ $badgeIcon }}"></i>{{ $badgeText }}
-              </span>
-            @else
-              <span class="gizi-badge gizi-none">
-                <i class="fas fa-minus"></i>-
-              </span>
-            @endif
-          </td>
-          <td>
-            @if($item->status == 'aktif')
-            <span class="status-badge badge-active">
-              <i class="fas fa-circle-check"></i>Aktif
-            </span>
-            @elseif($item->status == 'pindah')
-            <span class="status-badge badge-moved">
-              <i class="fas fa-arrow-right"></i>Pindah
-            </span>
-            @else
-            <span class="status-badge badge-passed">
-              <i class="fas fa-circle-xmark"></i>Meninggal
-            </span>
-            @endif
-          </td>
-          <td>
-            <div class="action-buttons">
-              <a href="{{ route('admin.anak.show', $item->id) }}" class="btn-action btn-view" title="Detail">
-                <i class="fas fa-eye"></i>
-              </a>
-              <a href="{{ route('admin.anak.edit', $item->id) }}" class="btn-action btn-edit" title="Edit">
-                <i class="fas fa-pen-to-square"></i>
-              </a>
-              <form action="{{ route('admin.anak.destroy', $item->id) }}" method="POST" class="d-inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn-action btn-delete btn-delete" data-title="Hapus Data Anak" data-text="Apakah Anda yakin ingin menghapus {{ $item->nama }}?" title="Hapus">
-                  <i class="fas fa-trash-can"></i>
-                </button>
-              </form>
-            </div>
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
-  </div>
-  @else
-  <div class="empty-state">
-    <div class="empty-illustration">
-      <i class="fas fa-children"></i>
+    @if($anak->count() > 0)
+    <div class="data-table-card">
+      <div class="table-header-bar">
+        <h5 class="table-header-title"><i class="fas fa-table me-2"></i>Data</h5>
+        <span class="table-header-count">{{ $anak->total() }} Items</span>
+      </div>
+      <div style="overflow-x: auto;">
+        <table id="anakTable" class="modern-table" style="width: 100%">
+          <thead>
+            <tr>
+              <th>Anak</th>
+              <th>Jenis Kelamin</th>
+              <th>Tanggal Lahir</th>
+              <th>Usia</th>
+              <th>Faskes</th>
+              <th>Status Gizi</th>
+              <th>Status</th>
+              <th style="text-align: right;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($anak as $item)
+            <tr>
+              <td>
+                <div class="profile-cell">
+                  <div class="profile-img img-{{ $item->jenis_kelamin == 'L' ? 'boy' : 'girl' }}">
+                    {{ strtoupper(substr($item->nama, 0, 1)) }}
+                  </div>
+                  <div>
+                    <div class="profile-name">{{ $item->nama }}</div>
+                    <div class="profile-meta">{{ $item->ibu->name ?? '-' }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="tag-badge tag-{{ $item->jenis_kelamin == 'L' ? 'boy' : 'girl' }}">
+                  <i class="fas fa-{{ $item->jenis_kelamin == 'L' ? 'person' : 'person-dress' }}"></i>
+                  {{ $item->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}
+                </span>
+              </td>
+              <td>
+                <span style="color: var(--gray-600); font-weight: 500;">{{ \Carbon\Carbon::parse($item->tanggal_lahir)->format('d M Y') }}</span>
+              </td>
+              <td>
+                @php
+                  $usia = \Carbon\Carbon::parse($item->tanggal_lahir)->diff(now());
+                  $usiaText = $usia->y > 0 ? $usia->y . ' th ' . $usia->m . ' bln' : ($usia->m > 0 ? $usia->m . ' bln' : $usia->d . ' hr');
+                @endphp
+                <span style="font-weight: 600; color: var(--primary);">{{ $usiaText }}</span>
+              </td>
+              <td>
+                <span class="faskes-label">
+                  <i class="fas fa-hospital me-1" style="color: var(--gray-400);"></i>
+                  {{ $item->faskes->nama ?? '-' }}
+                </span>
+              </td>
+              <td>
+                @if($item->latestPemeriksaan && $item->latestPemeriksaan->status_gizi_akhir)
+                  @php
+                    $status = $item->latestPemeriksaan->status_gizi_akhir;
+                    $badgeClass = 'gizi-none';
+                    $badgeIcon = 'fas fa-minus';
+                    $badgeText = '-';
+                    
+                    if($status == 'normal') {
+                      $badgeClass = 'gizi-normal';
+                      $badgeIcon = 'fas fa-check';
+                      $badgeText = 'Normal';
+                    } elseif($status == 'gizi_buruk' || $status == 'wasting') {
+                      $badgeClass = 'gizi-buruk';
+                      $badgeIcon = 'fas fa-triangle-exclamation';
+                      $badgeText = 'Gizi Buruk';
+                    } elseif($status == 'stunting') {
+                      $badgeClass = 'gizi-stunting';
+                      $badgeIcon = 'fas fa-arrow-down';
+                      $badgeText = 'Stunting';
+                    } elseif($status == 'underweight') {
+                      $badgeClass = 'gizi-underweight';
+                      $badgeIcon = 'fas fa-minus';
+                      $badgeText = 'Underweight';
+                    } elseif($status == 'overweight') {
+                      $badgeClass = 'gizi-overweight';
+                      $badgeIcon = 'fas fa-arrow-up';
+                      $badgeText = 'Overweight';
+                    }
+                  @endphp
+                  <span class="gizi-indicator {{ $badgeClass }}">
+                    <i class="{{ $badgeIcon }}"></i>{{ $badgeText }}
+                  </span>
+                @else
+                  <span class="gizi-indicator gizi-none">
+                    <i class="fas fa-minus"></i>-
+                  </span>
+                @endif
+              </td>
+              <td>
+                @if($item->status == 'aktif')
+                <span class="status-indicator status-active">
+                  <i class="fas fa-circle-check"></i>Aktif
+                </span>
+                @elseif($item->status == 'pindah')
+                <span class="status-indicator status-moved">
+                  <i class="fas fa-arrow-right"></i>Pindah
+                </span>
+                @else
+                <span class="status-indicator status-passed">
+                  <i class="fas fa-circle-xmark"></i>Meninggal
+                </span>
+                @endif
+              </td>
+              <td>
+                <div class="action-btns">
+                  <a href="{{ route('admin.anak.show', $item->id) }}" class="btn-action btn-see" title="Detail">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <a href="{{ route('admin.anak.edit', $item->id) }}" class="btn-action btn-pen" title="Edit">
+                    <i class="fas fa-pen-to-square"></i>
+                  </a>
+                  <form action="{{ route('admin.anak.destroy', $item->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-action btn-trash btn-delete" data-title="Hapus Data Anak" data-text="Apakah Anda yakin ingin menghapus {{ $item->nama }}?" title="Hapus">
+                      <i class="fas fa-trash-can"></i>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
     </div>
-    <h4 class="empty-title">Belum Ada Data Anak</h4>
-    <p class="empty-text">Silakan tambah data anak terlebih dahulu untuk memulai</p>
-    <a href="{{ route('admin.anak.create') }}" class="btn-add">
-      <i class="fas fa-plus"></i> Tambah Anak Pertama
-    </a>
+    @else
+    <div class="empty-box">
+      <div class="empty-img">
+        <i class="fas fa-children"></i>
+      </div>
+      <h4 class="empty-title">Belum Ada Data Anak</h4>
+      <p class="empty-msg">Silakan tambah data anak terlebih dahulu</p>
+      <a href="{{ route('admin.anak.create') }}" class="btn-add-new">
+        <i class="fas fa-plus"></i> Tambah Anak Pertama
+      </a>
+    </div>
+    @endif
   </div>
-  @endif
 </div>
 @endsection
 
@@ -861,25 +835,19 @@ $(document).ready(function() {
         extend: 'excelHtml5',
         text: '<i class="fas fa-file-excel me-1"></i> Excel',
         className: 'export-btn',
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6]
-        }
+        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
       },
       {
         extend: 'pdfHtml5',
         text: '<i class="fas fa-file-pdf me-1"></i> PDF',
         className: 'export-btn',
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6]
-        }
+        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
       },
       {
         extend: 'print',
         text: '<i class="fas fa-print me-1"></i> Print',
         className: 'export-btn',
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6]
-        }
+        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
       }
     ],
     columnDefs: [
