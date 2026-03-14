@@ -5,6 +5,63 @@ body.role-orangtua {
   padding-bottom: 80px; /* Space for bottom nav */
 }
 
+/* Mobile Header - Premium Style */
+.mobile-header {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.mobile-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  max-width: 100%;
+}
+
+.mobile-logo {
+  text-decoration: none;
+}
+
+.mobile-logo .avatar-circle {
+  box-shadow: 0 4px 12px rgba(46, 134, 171, 0.25);
+}
+
+.mobile-logo-text {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--sigap-dark);
+  letter-spacing: -0.5px;
+}
+
+.mobile-logo-text span {
+  color: var(--sigap-primary);
+}
+
+.mobile-notification-btn {
+  background: rgba(46, 134, 171, 0.08);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sigap-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mobile-notification-btn:hover {
+  background: var(--sigap-primary);
+  color: white;
+  transform: scale(1.05);
+}
+
 /* Greeting Card */
 .greeting-card {
   background: linear-gradient(135deg, var(--sigap-primary), var(--sigap-primary-dark));
@@ -123,19 +180,51 @@ body.role-orangtua {
   margin-bottom: 16px;
 }
 
-/* Bottom Navigation Glassmorphism */
+/* Bottom Navigation Premium */
 .bottom-nav {
-  background: rgba(255, 255, 255, 0.8);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border-top: 1px solid rgba(0,0,0,0.05);
+  border-top: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
   height: 70px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  color: #64748b;
+  gap: 4px;
+  min-width: 60px;
+}
+
+.nav-item:hover {
+  background: rgba(46, 134, 171, 0.08);
+  transform: translateY(-2px);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, var(--sigap-primary), var(--sigap-primary-dark));
+  color: white;
+  box-shadow: 0 8px 16px rgba(46, 134, 171, 0.35);
 }
 
 .nav-item i {
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .nav-item span {
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
