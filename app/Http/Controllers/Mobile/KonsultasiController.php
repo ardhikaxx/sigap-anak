@@ -16,12 +16,12 @@ class KonsultasiController extends Controller
     {
         $user = Auth::user();
         
-        $konsultasi = Konsultasi::where('orangtua_id', $user->id)
+        $konsultasis = Konsultasi::where('orangtua_id', $user->id)
             ->with(['anak', 'nakes'])
             ->orderBy('created_at', 'desc')
             ->get();
         
-        return view('mobile.konsultasi.index', compact('konsultasi'));
+        return view('mobile.konsultasi.index', compact('konsultasis'));
     }
 
     public function create()
