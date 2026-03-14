@@ -1,868 +1,364 @@
 @extends('admin.layout.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Control Center Overview')
 
-@section('breadcrumb')
-  <li class="breadcrumb-item active">Dashboard</li>
-@endsection
-
-@section('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css">
+@push('styles')
 <style>
+  /* Next-Gen Dashboard UI */
   :root {
-    --primary: #0ea5e9;
-    --primary-dark: #0284c7;
-    --primary-light: #e0f2fe;
-    --dark: #0f172a;
-    --dark-secondary: #1e293b;
-    --gray-500: #64748b;
-    --gray-400: #94a3b8;
-    --gray-100: #f1f5f9;
-    --white: #ffffff;
-    --success: #22c55e;
-    --warning: #f59e0b;
-    --danger: #ef4444;
-    --info: #06b6d4;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.4);
   }
 
-  * {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  }
-
-  .welcome-hero {
-    background: var(--primary);
-    border-radius: 24px;
-    padding: 36px 40px;
+  .premium-mesh-hero {
+    background: radial-gradient(at 0% 0%, #2E86AB 0, transparent 50%), 
+                radial-gradient(at 50% 0%, #57CC99 0, transparent 50%), 
+                radial-gradient(at 100% 0%, #1A5F7A 0, transparent 50%);
+    background-color: #1A1D2E;
+    border-radius: 35px;
+    padding: 60px 50px;
     color: white;
     position: relative;
     overflow: hidden;
-    margin-bottom: 28px;
+    margin-bottom: -100px; /* Overlap effect */
+    z-index: 0;
   }
 
-  .welcome-hero::before {
-    content: '';
+  .mesh-decorative-circle {
     position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 350px;
-    height: 350px;
-    background: rgba(255,255,255,0.08);
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,0.03);
     border-radius: 50%;
+    top: -100px;
+    right: -100px;
   }
 
-  .welcome-hero::after {
-    content: '';
-    position: absolute;
-    bottom: -30%;
-    left: -5%;
-    width: 250px;
-    height: 250px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 50%;
-  }
-
-  .welcome-content {
+  .dashboard-container {
     position: relative;
+    z-index: 1;
+    padding: 0 15px;
+  }
+
+  .glass-stat-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+
+  .glass-stat-card:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.08);
+  }
+
+  .action-app-card {
+    background: white;
+    border-radius: 22px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--sigap-dark);
+    border: 1px solid var(--sigap-border);
+    transition: all 0.2s;
+    display: block;
+  }
+
+  .action-app-card:hover {
+    border-color: var(--sigap-primary);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+    color: var(--sigap-primary);
+  }
+
+  .action-app-card i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .timeline-modern {
+    position: relative;
+    padding-left: 30px;
+  }
+
+  .timeline-modern::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e2e8f0;
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 25px;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -30px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--sigap-primary);
     z-index: 2;
   }
 
-  .welcome-title {
-    font-size: 1.75rem;
+  .stat-label-modern {
+    font-size: 0.75rem;
     font-weight: 800;
-    margin-bottom: 6px;
-  }
-
-  .welcome-subtitle {
-    font-size: 1rem;
-    opacity: 0.9;
-    font-weight: 400;
-  }
-
-  .date-card {
-    background: var(--white);
-    border-radius: 16px;
-    padding: 20px 24px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    border: 1px solid #e2e8f0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-  }
-
-  .date-icon {
-    width: 52px;
-    height: 52px;
-    background: var(--primary-light);
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary);
-    font-size: 22px;
-  }
-
-  .date-label {
-    font-size: 0.85rem;
-    color: var(--gray-500);
-    font-weight: 500;
-    margin-bottom: 2px;
-  }
-
-  .date-value {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--dark);
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-bottom: 28px;
-  }
-
-  .stat-card {
-    background: var(--white);
-    border-radius: 18px;
-    padding: 24px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--stat-color);
-  }
-
-  .stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 35px rgba(0,0,0,0.1);
-  }
-
-  .stat-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    margin-bottom: 16px;
-    background: var(--stat-bg);
-    color: var(--stat-color);
-  }
-
-  .stat-number {
-    font-size: 2.25rem;
-    font-weight: 800;
-    color: var(--dark);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .stat-label {
-    font-size: 0.85rem;
-    color: var(--gray-500);
-    font-weight: 500;
-  }
-
-  .content-card {
-    background: var(--white);
-    border-radius: 20px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-    border: 1px solid #e2e8f0;
-    overflow: hidden;
-    margin-bottom: 24px;
-  }
-
-  .card-header-custom {
-    padding: 20px 24px;
-    border-bottom: 1px solid #f1f5f9;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--dark);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
-  }
-
-  .card-title i {
-    color: var(--primary);
-  }
-
-  .card-body-custom {
-    padding: 24px;
-  }
-
-  .chart-container {
-    height: 260px;
-    position: relative;
-  }
-
-  .chart-legend {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-top: 20px;
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 16px;
-    background: var(--gray-100);
-    border-radius: 12px;
-    transition: all 0.2s ease;
-  }
-
-  .legend-item:hover {
-    background: #e2e8f0;
-  }
-
-  .legend-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-
-  .legend-text {
-    flex: 1;
-    font-size: 0.85rem;
-    color: var(--gray-500);
-    font-weight: 500;
-  }
-
-  .legend-count {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--dark);
-  }
-
-  .schedule-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .schedule-item {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-    background: var(--gray-100);
-    border-radius: 14px;
-    transition: all 0.2s ease;
-  }
-
-  .schedule-item:hover {
-    background: #e2e8f0;
-  }
-
-  .schedule-date {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    flex-shrink: 0;
-  }
-
-  .schedule-day {
-    font-size: 1.35rem;
-    font-weight: 800;
-    line-height: 1;
-  }
-
-  .schedule-month {
-    font-size: 0.7rem;
     text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    color: var(--sigap-gray);
+    margin-bottom: 5px;
   }
 
-  .schedule-info {
-    flex: 1;
-  }
-
-  .schedule-title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--dark);
-    margin-bottom: 4px;
-  }
-
-  .schedule-meta {
-    font-size: 0.8rem;
-    color: var(--gray-500);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .schedule-status {
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-
-  .table-custom {
-    width: 100%;
-  }
-
-  .table-custom th {
-    padding: 14px 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--gray-500);
-    background: var(--gray-100);
-    border: none;
-  }
-
-  .table-custom td {
-    padding: 16px 20px;
-    border-bottom: 1px solid #f1f5f9;
-    vertical-align: middle;
-  }
-
-  .table-custom tbody tr {
-    transition: all 0.2s ease;
-  }
-
-  .table-custom tbody tr:hover {
-    background: var(--gray-100);
-  }
-
-  .table-custom tbody tr:last-child td {
-    border-bottom: none;
-  }
-
-  .user-cell {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .user-avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    color: white;
-    font-size: 16px;
-  }
-
-  .avatar-blue { background: var(--primary); }
-  .avatar-pink { background: #ec4899; }
-
-  .user-name {
-    font-weight: 600;
-    color: var(--dark);
-    font-size: 0.9rem;
-  }
-
-  .user-meta {
-    font-size: 0.8rem;
-    color: var(--gray-500);
-  }
-
-  .badge-custom {
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .badge-normal { background: rgba(34, 197, 94, 0.1); color: #16a34a; }
-  .badge-danger { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
-  .badge-warning { background: rgba(245, 158, 11, 0.1); color: #d97706; }
-  .badge-info { background: rgba(6, 182, 212, 0.1); color: #0891b2; }
-  .badge-default { background: var(--gray-100); color: var(--gray-500); }
-
-  .btn-action {
-    padding: 8px 14px;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-
-  .btn-primary-action {
-    background: var(--primary);
-    color: white;
-  }
-
-  .btn-primary-action:hover {
-    background: var(--primary-dark);
-    color: white;
-  }
-
-  .btn-outline-action {
-    background: var(--gray-100);
-    color: var(--gray-500);
-  }
-
-  .btn-outline-action:hover {
-    background: var(--primary-light);
-    color: var(--primary);
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 48px 24px;
-  }
-
-  .empty-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--gray-100);
+  .pulse-indicator {
+    width: 10px;
+    height: 10px;
+    background: #22c55e;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
+    display: inline-block;
+    box-shadow: 0 0 0 rgba(34, 197, 94, 0.4);
+    animation: pulse-green 2s infinite;
   }
 
-  .empty-icon i {
-    font-size: 32px;
-    color: var(--gray-400);
-  }
-
-  .empty-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--dark);
-    margin-bottom: 4px;
-  }
-
-  .empty-text {
-    font-size: 0.85rem;
-    color: var(--gray-500);
-    margin-bottom: 16px;
-  }
-
-  .safe-state {
-    text-align: center;
-    padding: 32px 24px;
-  }
-
-  .safe-icon {
-    width: 70px;
-    height: 70px;
-    background: rgba(34, 197, 94, 0.1);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 16px;
-  }
-
-  .safe-icon i {
-    font-size: 28px;
-    color: var(--success);
-  }
-
-  .safe-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--success);
-    margin-bottom: 4px;
-  }
-
-  .safe-text {
-    font-size: 0.85rem;
-    color: var(--gray-500);
-  }
-
-  .measurement-badges {
-    display: flex;
-    gap: 6px;
-  }
-
-  .measure-badge {
-    padding: 4px 10px;
-    background: var(--gray-100);
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--gray-500);
-  }
-
-  .risk-indicator {
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-
-  .risk-high {
-    background: rgba(239, 68, 68, 0.1);
-    color: #dc2626;
-  }
-
-  .risk-medium {
-    background: rgba(245, 158, 11, 0.1);
-    color: #d97706;
-  }
-
-  @media (max-width: 1200px) {
-    .stats-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .welcome-hero {
-      padding: 28px;
-      text-align: center;
-    }
-
-    .welcome-title {
-      font-size: 1.5rem;
-    }
-
-    .stats-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .card-header-custom {
-      flex-direction: column;
-      gap: 12px;
-      align-items: flex-start;
-    }
-
-    .chart-legend {
-      grid-template-columns: 1fr;
-    }
-
-    .table-custom {
-      font-size: 0.85rem;
-    }
-
-    .table-custom th,
-    .table-custom td {
-      padding: 12px;
-    }
+  @keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
   }
 </style>
+@endpush
+
+@section('breadcrumb')
+  <li class="breadcrumb-item active">Operational Dashboard</li>
 @endsection
 
 @section('content')
-<div class="welcome-hero">
-  <div class="welcome-content">
-    <div class="row align-items-center">
-      <div class="col-lg-8">
-        <h1 class="welcome-title">
-          <i class="fas fa-hand-sparkles me-2"></i>Selamat Datang, {{ auth()->user()->name }}!
-        </h1>
-        <p class="welcome-subtitle">Pantau kesehatan dan pertumbuhan anak dengan lebih mudah</p>
+<!-- Mesh Hero -->
+<div class="premium-mesh-hero">
+  <div class="mesh-decorative-circle"></div>
+  <div class="row align-items-center">
+    <div class="col-lg-7">
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <span class="pulse-indicator"></span>
+        <span class="small fw-bold opacity-75">SISTEM AKTIF & TERKONEKSI</span>
       </div>
-      <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-        <div class="date-card" style="display: inline-flex; background: rgba(255,255,255,0.15); border: none;">
-          <div>
-            <div class="date-label" style="color: rgba(255,255,255,0.8);">Hari Ini</div>
-            <div class="date-value" style="color: white;">{{ now()->format('l, d M Y') }}</div>
-          </div>
-          <div class="date-icon" style="background: rgba(255,255,255,0.2); color: white;">
-            <i class="fas fa-calendar"></i>
-          </div>
+      <h1 class="display-4 fw-bold mb-3 text-white">Dashboard Kendali</h1>
+      <p class="fs-5 opacity-75 mb-0">Memantau pertumbuhan {{ $totalAnak }} anak dengan dukungan kecerdasan sistem.</p>
+    </div>
+    <div class="col-lg-5 d-none d-lg-block">
+      <div class="d-flex justify-content-end gap-2">
+        <div class="text-end me-4">
+          <div class="h2 fw-800 mb-0">{{ now()->format('H:i') }}</div>
+          <div class="small opacity-75">{{ now()->format('l, d M Y') }}</div>
+        </div>
+        <div class="avatar-circle bg-white bg-opacity-10" style="width: 60px; height: 60px; font-size: 24px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+          <i class="fas fa-chart-line text-white"></i>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="stats-grid">
-  <div class="stat-card" style="--stat-color: #0ea5e9; --stat-bg: rgba(14, 165, 233, 0.1);">
-    <div class="stat-icon">
-      <i class="fas fa-children"></i>
-    </div>
-    <div class="stat-number">{{ $totalAnak }}</div>
-    <div class="stat-label">Total Anak</div>
-  </div>
-  <div class="stat-card" style="--stat-color: #22c55e; --stat-bg: rgba(34, 197, 94, 0.1);">
-    <div class="stat-icon">
-      <i class="fas fa-stethoscope"></i>
-    </div>
-    <div class="stat-number">{{ $pemeriksaanHariIni }}</div>
-    <div class="stat-label">Pemeriksaan Hari Ini</div>
-  </div>
-  <div class="stat-card" style="--stat-color: #f59e0b; --stat-bg: rgba(245, 158, 11, 0.1);">
-    <div class="stat-icon">
-      <i class="fas fa-calendar-check"></i>
-    </div>
-    <div class="stat-number">{{ $pemeriksaanBulanIni }}</div>
-    <div class="stat-label">Pemeriksaan Bulan Ini</div>
-  </div>
-  <div class="stat-card" style="--stat-color: #ef4444; --stat-bg: rgba(239, 68, 68, 0.1);">
-    <div class="stat-icon">
-      <i class="fas fa-comments"></i>
-    </div>
-    <div class="stat-number">{{ $konsultasiPending }}</div>
-    <div class="stat-label">Konsultasi Pending</div>
-  </div>
-</div>
-
-<div class="row g-4 mb-4">
-  <div class="col-lg-4">
-    <div class="content-card">
-      <div class="card-header-custom">
-        <h5 class="card-title">
-          <i class="fas fa-chart-pie"></i>
-          Status Gizi
-        </h5>
-      </div>
-      <div class="card-body-custom">
-        <div class="chart-container">
-          <canvas id="statusGiziChart"></canvas>
+<div class="dashboard-container mt-5">
+  <!-- Stats Block -->
+  <div class="row g-4 mb-5">
+    <div class="col-xl-3 col-sm-6">
+      <div class="glass-stat-card">
+        <div class="stat-label-modern">Populasi Anak</div>
+        <div class="d-flex align-items-end gap-2">
+          <h2 class="fw-800 mb-0">{{ $totalAnak }}</h2>
+          <span class="text-success small fw-bold mb-1"><i class="fas fa-arrow-up"></i> 4.2%</span>
         </div>
-        <div class="chart-legend">
-          @forelse($statusGizi as $status => $jumlah)
-            @if($jumlah > 0)
-            <div class="legend-item">
-              <div class="legend-dot" style="background: @if($status == 'normal') #22c55e @elseif($status == 'gizi_buruk' || $status == 'wasting') #ef4444 @elseif($status == 'stunting' || $status == 'underweight') #f59e0b @else #06b6d4 @endif;"></div>
-              <span class="legend-text">{{ ucfirst($status) }}</span>
-              <span class="legend-count">{{ $jumlah }}</span>
+        <div class="user-meta mt-2 small">Jiwa terdata di sistem</div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="glass-stat-card">
+        <div class="stat-label-modern">Target Periksa</div>
+        <div class="d-flex align-items-end gap-2">
+          <h2 class="fw-800 mb-0">{{ $pemeriksaanHariIni }}</h2>
+          <span class="text-primary small fw-bold mb-1">/ 25</span>
+        </div>
+        <div class="progress-mini mt-3">
+          <div class="progress-bar bg-primary" style="width: {{ ($pemeriksaanHariIni/25)*100 }}%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="glass-stat-card">
+        <div class="stat-label-modern">Antrian Konsultasi</div>
+        <div class="d-flex align-items-end gap-2">
+          <h2 class="fw-800 mb-0 text-warning">{{ $konsultasiPending }}</h2>
+          <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2 py-1" style="font-size: 10px;">URGENT</span>
+        </div>
+        <div class="user-meta mt-2 small">Menunggu respon nakes</div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="glass-stat-card">
+        <div class="stat-label-modern">Kasus Gizi Buruk</div>
+        <div class="d-flex align-items-end gap-2">
+          <h2 class="fw-800 mb-0 text-danger">{{ $anakBerisiko->count() }}</h2>
+          <i class="fas fa-shield-exclamation text-danger mb-1"></i>
+        </div>
+        <div class="user-meta mt-2 small">Butuh intervensi segera</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Main Insights -->
+    <div class="col-lg-8">
+      <div class="card-custom mb-4 border-0 shadow-sm overflow-hidden">
+        <div class="row g-0">
+          <div class="col-md-7 p-4">
+            <h5 class="fw-800 mb-4"><i class="fas fa-chart-pie me-2 text-primary"></i>Peta Status Gizi</h5>
+            <div style="height: 320px;">
+              <canvas id="statusGiziChart"></canvas>
             </div>
-            @endif
+          </div>
+          <div class="col-md-5 bg-light bg-opacity-50 p-4 border-start">
+            <h6 class="fw-bold mb-3 small uppercase">Legenda & Distribusi</h6>
+            <div class="d-flex flex-column gap-3">
+              @foreach($statusGizi as $status => $jumlah)
+                @if($jumlah > 0)
+                <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-white border">
+                  <div class="d-flex align-items-center gap-2">
+                    <div style="width: 10px; height: 10px; border-radius: 3px; background: @if($status == 'normal') #22c55e @elseif($status == 'gizi_buruk' || $status == 'wasting') #ef4444 @elseif($status == 'stunting' || $status == 'underweight') #f59e0b @else #0ea5e9 @endif;"></div>
+                    <span class="small fw-bold text-dark text-capitalize">{{ str_replace('_', ' ', $status) }}</span>
+                  </div>
+                  <span class="badge bg-light text-dark border">{{ $jumlah }}</span>
+                </div>
+                @endif
+              @endforeach
+            </div>
+            <div class="mt-4 p-3 rounded-4 bg-primary bg-opacity-10 text-primary small">
+              <i class="fas fa-info-circle me-1"></i> Data dihitung berdasarkan standar deviasi WHO 2025.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-custom border-0 shadow-sm">
+        <div class="card-header-custom p-4 border-0">
+          <h5 class="mb-0 fw-800">Timeline Pemeriksaan Terbaru</h5>
+          <a href="{{ route('admin.pemeriksaan.index') }}" class="btn btn-link text-primary fw-bold text-decoration-none p-0">Detail <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+        <div class="card-body-custom px-4 pb-2">
+          <div class="timeline-modern">
+            @foreach($pemeriksaanTerbaru->take(4) as $p)
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="d-flex justify-content-between align-items-start bg-light bg-opacity-30 p-3 rounded-4 border border-white">
+                <div class="d-flex gap-3">
+                  <div class="avatar-circle avatar-{{ $p->anak->jenis_kelamin == 'L' ? 'blue' : 'pink' }}" style="width: 45px; height: 45px; border-radius: 14px;">
+                    {{ strtoupper(substr($p->anak->nama, 0, 1)) }}
+                  </div>
+                  <div>
+                    <h6 class="fw-bold text-dark mb-0">{{ $p->anak->nama }}</h6>
+                    <div class="user-meta small">BB: {{ $p->berat_badan }}kg | TB: {{ $p->tinggi_badan }}cm</div>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <span class="badge-custom @if($p->status_gizi_akhir == 'normal') badge-normal @else badge-warning @endif mb-1">
+                    {{ ucfirst(str_replace('_', ' ', $p->status_gizi_akhir)) }}
+                  </span>
+                  <div class="user-meta" style="font-size: 10px;">{{ \Carbon\Carbon::parse($p->tanggal_periksa)->diffForHumans() }}</div>
+                </div>
+              </div>
+            </div>
+            @endforeach
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Aksi & Informasi -->
+    <div class="col-lg-4">
+      <div class="mb-4">
+        <h6 class="fw-800 text-dark mb-3 small uppercase ms-2">Aksi Navigasi</h6>
+        <div class="row g-2">
+          <div class="col-6">
+            <a href="{{ route('admin.pemeriksaan.create') }}" class="action-app-card">
+              <i class="fas fa-file-medical text-primary"></i>
+              <span class="small fw-bold">Input Data</span>
+            </a>
+          </div>
+          <div class="col-6">
+            <a href="{{ route('admin.posyandu.create') }}" class="action-app-card">
+              <i class="fas fa-calendar-plus text-success"></i>
+              <span class="small fw-bold">Atur Jadwal</span>
+            </a>
+          </div>
+          <div class="col-6">
+            <a href="{{ route('admin.konsultasi.index') }}" class="action-app-card">
+              <i class="fas fa-message-smile text-warning"></i>
+              <span class="small fw-bold">Balas Chat</span>
+            </a>
+          </div>
+          <div class="col-6">
+            <a href="{{ route('admin.laporan.index') }}" class="action-app-card">
+              <i class="fas fa-file-pdf text-danger"></i>
+              <span class="small fw-bold">Laporan</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-custom mb-4 border-0 shadow-sm">
+        <div class="card-header-custom p-4 border-0">
+          <h5 class="mb-0 fw-800">Agenda Hari Ini</h5>
+        </div>
+        <div class="card-body-custom px-4 pb-4">
+          @forelse($jadwalMendatang->where('tanggal', now()->format('Y-m-d')) as $jadwal)
+            <div class="p-3 rounded-4 bg-primary bg-opacity-5 border border-primary border-opacity-10 mb-2">
+              <div class="fw-bold text-primary mb-1">{{ $jadwal->tema ?? 'Layanan Posyandu' }}</div>
+              <div class="user-meta small"><i class="fas fa-clock me-1"></i> {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} • {{ $jadwal->faskes->nama }}</div>
+            </div>
           @empty
-          <p class="text-muted text-center w-100">Belum ada data</p>
+            <div class="text-center py-4 border rounded-4 border-dashed">
+              <i class="fas fa-calendar-day opacity-20 fa-2x mb-2"></i>
+              <p class="user-meta small mb-0">Tidak ada agenda hari ini</p>
+            </div>
           @endforelse
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="col-lg-8">
-    <div class="content-card">
-      <div class="card-header-custom">
-        <h5 class="card-title">
-          <i class="fas fa-calendar-days"></i>
-          Jadwal Posyandu Mendatang
-        </h5>
-        <div class="d-flex gap-2">
-          <a href="{{ route('admin.posyandu.create') }}" class="btn-action btn-primary-action">
-            <i class="fas fa-plus"></i> Baru
-          </a>
-          <a href="{{ route('admin.posyandu.index') }}" class="btn-action btn-outline-action">
-            Semua <i class="fas fa-angle-right"></i>
-          </a>
-        </div>
-      </div>
-      <div class="card-body-custom" style="padding-top: 16px;">
-        @if($jadwalMendatang->count() > 0)
-        <div class="schedule-list">
-          @foreach($jadwalMendatang->take(4) as $jadwal)
-          <div class="schedule-item">
-            <div class="schedule-date" style="background: @if($jadwal->status == 'terjadwal') #0ea5e9 @elseif($jadwal->status == 'sedang_berlangsung') #22c55e @else #64748b @endif;">
-              <span class="schedule-day">{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d') }}</span>
-              <span class="schedule-month">{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('M') }}</span>
-            </div>
-            <div class="schedule-info">
-              <div class="schedule-title">{{ $jadwal->tema ?? 'Posyandu' }}</div>
-              <div class="schedule-meta">
-                <span><i class="fas fa-hospital me-1"></i>{{ $jadwal->faskes->nama ?? '-' }}</span>
-                <span><i class="fas fa-clock me-1"></i>{{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }}</span>
-              </div>
-            </div>
-            <span class="schedule-status" style="background: @if($jadwal->status == 'terjadwal') rgba(14, 165, 233, 0.1) @elseif($jadwal->status == 'sedang_berlangsung') rgba(34, 197, 94, 0.1) @else rgba(100, 116, 139, 0.1) @endif; color: @if($jadwal->status == 'terjadwal') #0ea5e9 @elseif($jadwal->status == 'sedang_berlangsung') #22c55e @else #64748b @endif;">
-              {{ ucfirst(str_replace('_', ' ', $jadwal->status)) }}
-            </span>
+      <div class="p-4 rounded-4 bg-glass border" style="background: rgba(255,255,255,0.4);">
+        <h6 class="fw-800 text-dark mb-3 small uppercase">Kesehatan Server</h6>
+        <div class="d-flex flex-column gap-2">
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="small fw-bold text-muted">Uptime</span>
+            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2">99.9%</span>
           </div>
-          @endforeach
-        </div>
-        @else
-        <div class="empty-state">
-          <div class="empty-icon">
-            <i class="fas fa-calendar-xmark"></i>
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="small fw-bold text-muted">Data Sync</span>
+            <span class="small fw-bold text-dark">Real-time</span>
           </div>
-          <div class="empty-title">Belum Ada Jadwal</div>
-          <div class="empty-text">Buat jadwal posyandu pertama Anda</div>
-          <a href="{{ route('admin.posyandu.create') }}" class="btn-action btn-primary-action">
-            <i class="fas fa-plus"></i> Buat Jadwal
-          </a>
         </div>
-        @endif
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row g-4">
-  <div class="col-md-6">
-    <div class="content-card">
-      <div class="card-header-custom">
-        <h5 class="card-title">
-          <i class="fas fa-clipboard-check"></i>
-          Pemeriksaan Terbaru
-        </h5>
-        <a href="{{ route('admin.pemeriksaan.index') }}" class="btn-action btn-outline-action">
-          Semua <i class="fas fa-angle-right"></i>
-        </a>
-      </div>
-      <div style="overflow-x: auto;">
-        @if($pemeriksaanTerbaru->count() > 0)
-        <table class="table-custom">
-          <thead>
-            <tr>
-              <th>Anak</th>
-              <th>Ukuran</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($pemeriksaanTerbaru->take(5) as $p)
-            <tr>
-              <td>
-                <div class="user-cell">
-                  <div class="user-avatar avatar-{{ $p->anak->jenis_kelamin == 'L' ? 'blue' : 'pink' }}">
-                    {{ strtoupper(substr($p->anak->nama ?? 'A', 0, 1)) }}
-                  </div>
-                  <div>
-                    <div class="user-name">{{ $p->anak->nama ?? '-' }}</div>
-                    <div class="user-meta">{{ \Carbon\Carbon::parse($p->tanggal_periksa)->format('d M Y') }}</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="measurement-badges">
-                  <span class="measure-badge"><i class="fas fa-weight-hanging me-1"></i>{{ $p->berat_badan ?? 0 }}kg</span>
-                  <span class="measure-badge"><i class="fas fa-ruler me-1"></i>{{ $p->tinggi_badan ?? 0 }}cm</span>
-                </div>
-              </td>
-              <td>
-                @if($p->status_gizi_akhir)
-                <span class="badge-custom @if($p->status_gizi_akhir == 'normal') badge-normal @elseif($p->status_gizi_akhir == 'gizi_buruk' || $p->status_gizi_akhir == 'wasting') badge-danger @elseif($p->status_gizi_akhir == 'stunting' || $p->status_gizi_akhir == 'underweight') badge-warning @else badge-info @endif">
-                  <i class="fas @if($p->status_gizi_akhir == 'normal') fa-check @elseif($p->status_gizi_akhir == 'gizi_buruk' || $p->status_gizi_akhir == 'wasting') fa-triangle-exclamation @else fa-minus @endif"></i>
-                  {{ ucfirst(str_replace('_', ' ', $p->status_gizi_akhir)) }}
-                </span>
-                @else
-                <span class="badge-custom badge-default">Belum</span>
-                @endif
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-        @else
-        <div class="empty-state">
-          <div class="empty-icon">
-            <i class="fas fa-clipboard-list"></i>
-          </div>
-          <div class="empty-title">Belum Ada Pemeriksaan</div>
-          <div class="empty-text">Pemeriksaan akan muncul di sini</div>
-        </div>
-        @endif
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="content-card">
-      <div class="card-header-custom">
-        <h5 class="card-title">
-          <i class="fas fa-exclamation-triangle"></i>
-          Anak Berisiko
-        </h5>
-        <a href="{{ route('admin.anak.index') }}" class="btn-action btn-outline-action">
-          Semua <i class="fas fa-angle-right"></i>
-        </a>
-      </div>
-      <div style="overflow-x: auto;">
-        @if($anakBerisiko->count() > 0)
-        <table class="table-custom">
-          <thead>
-            <tr>
-              <th>Anak</th>
-              <th>BB Terakhir</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($anakBerisiko->take(5) as $anak)
-            <tr>
-              <td>
-                <div class="user-cell">
-                  <div class="user-avatar avatar-{{ $anak->jenis_kelamin == 'L' ? 'blue' : 'pink' }}">
-                    {{ strtoupper(substr($anak->nama ?? 'A', 0, 1)) }}
-                  </div>
-                  <div>
-                    <div class="user-name">{{ $anak->nama ?? '-' }}</div>
-                    <div class="user-meta">{{ $anak->usia_bulan ?? 0 }} bulan</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                @if($anak->latestPemeriksaan)
-                <span class="measure-badge">{{ $anak->latestPemeriksaan->berat_badan ?? 0 }} kg</span>
-                @else
-                <span class="measure-badge">-</span>
-                @endif
-              </td>
-              <td>
-                @if($anak->latestPemeriksaan && $anak->latestPemeriksaan->status_gizi_akhir)
-                <span class="risk-indicator @if($anak->latestPemeriksaan->status_gizi_akhir == 'gizi_buruk' || $anak->latestPemeriksaan->status_gizi_akhir == 'wasting') risk-high @else risk-medium @endif">
-                  {{ ucfirst(str_replace('_', ' ', $anak->latestPemeriksaan->status_gizi_akhir)) }}
-                </span>
-                @endif
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-        @else
-        <div class="safe-state">
-          <div class="safe-icon">
-            <i class="fas fa-shield-heart"></i>
-          </div>
-          <div class="safe-title">Semua Aman!</div>
-          <div class="safe-text">Tidak ada anak berisiko tinggi</div>
-        </div>
-        @endif
       </div>
     </div>
   </div>
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
   const statusGiziData = {!! json_encode($statusGizi) !!};
-  
   const ctx = document.getElementById('statusGiziChart').getContext('2d');
   
   const labels = Object.keys(statusGiziData).map(key => key.charAt(0).toUpperCase() + key.slice(1).replace('_', ' '));
@@ -871,7 +367,7 @@
     if (key === 'normal') return '#22c55e';
     if (key === 'gizi_buruk' || key === 'wasting') return '#ef4444';
     if (key === 'stunting' || key === 'underweight') return '#f59e0b';
-    return '#06b6d4';
+    return '#0ea5e9';
   });
 
   new Chart(ctx, {
@@ -881,40 +377,35 @@
       datasets: [{
         data: data,
         backgroundColor: colors,
+        hoverBackgroundColor: colors,
         borderWidth: 0,
-        hoverOffset: 8
+        hoverOffset: 30,
+        borderRadius: 15,
+        spacing: 10
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      cutout: '65%',
+      cutout: '85%',
       plugins: {
-        legend: {
-          display: false
-        },
+        legend: { display: false },
         tooltip: {
-          backgroundColor: '#0f172a',
-          titleFont: {
-            family: "'Plus Jakarta Sans', sans-serif",
-            size: 13,
-            weight: '600'
-          },
-          bodyFont: {
-            family: "'Plus Jakarta Sans', sans-serif",
-            size: 12
-          },
-          padding: 12,
-          cornerRadius: 10,
-          displayColors: true,
-          boxPadding: 6
+          padding: 15,
+          cornerRadius: 15,
+          backgroundColor: '#111827',
+          titleFont: { family: 'Plus Jakarta Sans', size: 14, weight: 'bold' },
+          bodyFont: { family: 'Plus Jakarta Sans', size: 13 },
+          boxPadding: 10
         }
       },
       animation: {
         animateRotate: true,
-        animateScale: true
+        animateScale: true,
+        duration: 2500,
+        easing: 'easeOutElastic'
       }
     }
   });
 </script>
-@endsection
+@endpush

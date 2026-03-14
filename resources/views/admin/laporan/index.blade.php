@@ -1,193 +1,167 @@
 @extends('admin.layout.master')
 
-@section('title', 'Laporan')
+@section('title', 'Laporan & Analitik Pertumbuhan')
+
+@push('styles')
+<style>
+  /* Reuse consistent premium styles */
+  .page-header-premium {
+    background: #1A1D2E;
+    background-image: radial-gradient(at 0% 0%, rgba(46, 134, 171, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(87, 204, 153, 0.1) 0px, transparent 50%);
+    border-radius: 35px; padding: 60px 40px 100px; margin-bottom: -60px; position: relative;
+  }
+  .header-stats-mini { display: flex; gap: 30px; margin-top: 25px; }
+  .header-stat-item { padding-left: 15px; border-left: 2px solid rgba(255,255,255,0.1); }
+  .header-stat-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.5); margin-bottom: 2px; }
+  .header-stat-value { font-size: 1.2rem; font-weight: 800; color: white; }
+  
+  .report-filter-card {
+    background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); border-radius: 28px; padding: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05); margin-top: -60px; position: relative; z-index: 5; border: 1px solid white;
+  }
+  .summary-card-premium {
+    background: white; border-radius: 24px; padding: 25px; border: 1px solid #f1f5f9; transition: all 0.3s ease; height: 100%;
+  }
+  .summary-card-premium:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+  .icon-circle-report {
+    width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 15px;
+  }
+</style>
+@endpush
 
 @section('breadcrumb')
   <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-  <li class="breadcrumb-item active">Laporan</li>
-@endsection
-
-@section('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css">
-<style>
-  :root {
-    --primary: #0ea5e9; --primary-dark: #0284c7; --dark: #0f172a;
-    --gray-600: #475569; --gray-500: #64748b; --gray-400: #94a3b8;
-    --gray-100: #f1f5f9; --white: #ffffff;
-    --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
-  }
-  * { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
-
-  .hero-section {
-    background: var(--primary); border-radius: 24px; padding: 40px 44px;
-    color: white; position: relative; overflow: hidden; margin-bottom: 28px;
-  }
-  .hero-section::before {
-    content: ''; position: absolute; top: -50%; right: -10%; width: 320px; height: 320px;
-    background: rgba(255,255,255,0.08); border-radius: 50%;
-  }
-  .hero-title { font-size: 2.25rem; font-weight: 800; margin-bottom: 6px; }
-  .hero-subtitle { font-size: 1.05rem; opacity: 0.9; }
-
-  .content-card {
-    background: var(--white); border-radius: 22px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 24px;
-  }
-  .card-header-section { padding: 22px 28px; border-bottom: 1px solid #f1f5f9; }
-  .card-title-section { font-size: 1.1rem; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 12px; margin: 0; }
-  .card-title-section i { color: var(--primary); }
-
-  .filter-bar {
-    display: flex; gap: 12px; flex-wrap: wrap; align-items: center; padding: 20px 28px;
-    background: var(--gray-100); border-bottom: 1px solid #e2e8f0;
-  }
-
-  .filter-dropdown {
-    padding: 12px 16px; border: 2px solid transparent; border-radius: 12px;
-    font-size: 0.9rem; background: var(--white); cursor: pointer; min-width: 140px;
-  }
-  .filter-dropdown:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1); }
-
-  .btn-filter {
-    background: var(--primary); border: none; border-radius: 12px; padding: 12px 20px;
-    font-weight: 600; color: white; transition: all 0.25s ease;
-    display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
-  }
-  .btn-filter:hover { background: var(--primary-dark); transform: translateY(-1px); color: white; }
-
-  .btn-export {
-    background: var(--success); border: none; border-radius: 12px; padding: 12px 20px;
-    font-weight: 600; color: white; transition: all 0.25s ease;
-    display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
-  }
-  .btn-export:hover { background: #16a34a; transform: translateY(-1px); color: white; }
-
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 28px; }
-  .stat-card {
-    background: var(--white); border-radius: 20px; padding: 24px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
-    transition: all 0.35s ease; position: relative;
-  }
-  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--stat-color); }
-  .stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(0,0,0,0.1); }
-  .stat-icon {
-    width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
-    font-size: 20px; margin-bottom: 14px; background: var(--stat-bg); color: var(--stat-color);
-  }
-  .stat-number { font-size: 2.25rem; font-weight: 800; color: var(--dark); line-height: 1; margin-bottom: 4px; }
-  .stat-label { font-size: 0.85rem; color: var(--gray-500); font-weight: 500; }
-
-  .chart-card {
-    background: var(--white); border-radius: 22px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; overflow: hidden;
-  }
-  .chart-header { padding: 22px 28px; border-bottom: 1px solid #f1f5f9; }
-  .chart-title { font-size: 1rem; font-weight: 700; color: var(--dark); margin: 0; }
-  .chart-body { padding: 24px; }
-
-  @media (max-width: 1200px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 768px) {
-    .hero-section { padding: 28px; text-align: center; }
-    .hero-title { font-size: 1.75rem; }
-    .stats-grid { grid-template-columns: 1fr; }
-    .filter-bar { flex-direction: column; }
-    .filter-dropdown, .btn-filter, .btn-export { width: 100%; justify-content: center; }
-  }
-</style>
+  <li class="breadcrumb-item active">Laporan & Analitik</li>
 @endsection
 
 @section('content')
-<div class="hero-section">
-  <h1 class="hero-title"><i class="fas fa-chart-line me-3"></i>Laporan</h1>
-  <p class="hero-subtitle">Generate dan export laporan dengan lebih mudah</p>
+<div class="page-header-premium">
+  <div class="row align-items-center">
+    <div class="col-lg-7">
+      <h1 class="display-5 fw-800 text-white mb-1">Pusat Laporan</h1>
+      <p class="text-white opacity-60 fs-5">Analisis mendalam tren kesehatan dan performa wilayah.</p>
+      
+      <div class="header-stats-mini">
+        <div class="header-stat-item">
+          <div class="header-stat-label">Periode Aktif</div>
+          <div class="header-stat-value text-white">{{ Carbon\Carbon::create()->month($bulan)->format('F') }} {{ $tahun }}</div>
+        </div>
+        <div class="header-stat-item">
+          <div class="header-stat-label">Jenis Data</div>
+          <div class="header-stat-value text-info text-capitalize">{{ str_replace('_', ' ', $tipe) }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5 text-lg-end mt-4 mt-lg-0">
+      <a href="{{ route('admin.laporan.export', ['tipe' => $tipe, 'bulan' => $bulan, 'tahun' => $tahun]) }}" class="btn btn-premium-action btn-gradient-export" target="_blank">
+        <i class="fas fa-file-pdf me-2"></i> Export Laporan (PDF)
+      </a>
+    </div>
+  </div>
 </div>
 
-<div class="content-card">
-  <div class="card-header-section">
-    <h5 class="card-title-section"><i class="fas fa-filter"></i> Filter Laporan</h5>
-  </div>
-  <div class="filter-bar">
-    <form method="GET" class="d-flex gap-2 flex-wrap flex-grow-1">
-      <select name="tipe" class="filter-dropdown">
-        <option value="pemeriksaan" {{ $tipe == 'pemeriksaan' ? 'selected' : '' }}>Pemeriksaan</option>
-        <option value="pertumbuhan" {{ $tipe == 'pertumbuhan' ? 'selected' : '' }}>Pertumbuhan</option>
-        <option value="posyandu" {{ $tipe == 'posyandu' ? 'selected' : '' }}>Posyandu</option>
-        <option value="konsultasi" {{ $tipe == 'konsultasi' ? 'selected' : '' }}>Konsultasi</option>
-        <option value="gizi" {{ $tipe == 'gizi' ? 'selected' : '' }}>Status Gizi</option>
+<div class="report-filter-card mx-3 mb-4">
+  <form method="GET" action="{{ route('admin.laporan.index') }}" class="row g-3">
+    <div class="col-lg-4">
+      <label class="form-label small fw-800 text-muted text-uppercase">Kategori Laporan</label>
+      <select name="tipe" class="form-select border-0 bg-light rounded-4 py-3 px-4 fw-bold">
+        <option value="pemeriksaan" {{ $tipe == 'pemeriksaan' ? 'selected' : '' }}>Pemeriksaan Bulanan</option>
+        <option value="pertumbuhan" {{ $tipe == 'pertumbuhan' ? 'selected' : '' }}>Tren Pertumbuhan</option>
+        <option value="posyandu" {{ $tipe == 'posyandu' ? 'selected' : '' }}>Aktivitas Posyandu</option>
+        <option value="gizi" {{ $tipe == 'gizi' ? 'selected' : '' }}>Distribusi Gizi (WHO)</option>
       </select>
-      <select name="bulan" class="filter-dropdown">
+    </div>
+    <div class="col-lg-3">
+      <label class="form-label small fw-800 text-muted text-uppercase">Bulan</label>
+      <select name="bulan" class="form-select border-0 bg-light rounded-4 py-3 px-4 fw-bold">
         @for($i = 1; $i <= 12; $i++)
-        <option value="{{ $i }}" {{ $bulan == $i ? 'selected' : '' }}>{{ Carbon\Carbon::create()->month($i)->format('F') }}</option>
+          <option value="{{ $i }}" {{ $bulan == $i ? 'selected' : '' }}>{{ Carbon\Carbon::create()->month($i)->format('F') }}</option>
         @endfor
       </select>
-      <select name="tahun" class="filter-dropdown">
+    </div>
+    <div class="col-lg-3">
+      <label class="form-label small fw-800 text-muted text-uppercase">Tahun</label>
+      <select name="tahun" class="form-select border-0 bg-light rounded-4 py-3 px-4 fw-bold">
         @for($i = 2023; $i <= 2026; $i++)
-        <option value="{{ $i }}" {{ $tahun == $i ? 'selected' : '' }}>{{ $i }}</option>
+          <option value="{{ $i }}" {{ $tahun == $i ? 'selected' : '' }}>{{ $i }}</option>
         @endfor
       </select>
-      <button type="submit" class="btn-filter"><i class="fas fa-search"></i> Tampilkan</button>
-    </form>
-    <a href="{{ route('admin.laporan.export', ['tipe' => $tipe, 'bulan' => $bulan, 'tahun' => $tahun]) }}" class="btn-export" target="_blank">
-      <i class="fas fa-file-pdf"></i> Export PDF
-    </a>
-  </div>
+    </div>
+    <div class="col-lg-2 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary w-100 rounded-4 py-3 fw-bold shadow-sm">
+        Tampilkan
+      </button>
+    </div>
+  </form>
 </div>
 
-@if($tipe == 'pemeriksaan')
-<div class="stats-grid">
-  <div class="stat-card" style="--stat-color: #0ea5e9; --stat-bg: rgba(14, 165, 233, 0.1);">
-    <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
-    <div class="stat-number">{{ $data['total'] ?? 0 }}</div>
-    <div class="stat-label">Total Pemeriksaan</div>
+@if($tipe == 'pemeriksaan' && isset($data['total']))
+<div class="row g-4 mb-4 px-3">
+  <div class="col-md-3">
+    <div class="summary-card-premium">
+      <div class="icon-circle-report bg-primary bg-opacity-10 text-primary"><i class="fas fa-users"></i></div>
+      <div class="user-meta small mb-1">Total Diperiksa</div>
+      <div class="h3 fw-800 text-dark mb-0">{{ $data['total'] }} <span class="fs-6 fw-normal opacity-50">Anak</span></div>
+    </div>
   </div>
-  <div class="stat-card" style="--stat-color: #22c55e; --stat-bg: rgba(34, 197, 94, 0.1);">
-    <div class="stat-icon"><i class="fas fa-check"></i></div>
-    <div class="stat-number">{{ $data['status_gizi']['normal'] ?? 0 }}</div>
-    <div class="stat-label">Gizi Normal</div>
+  <div class="col-md-3">
+    <div class="summary-card-premium">
+      <div class="icon-circle-report bg-success bg-opacity-10 text-success"><i class="fas fa-heart-circle-check"></i></div>
+      <div class="user-meta small mb-1">Gizi Normal</div>
+      <div class="h3 fw-800 text-success mb-0">{{ $data['status_gizi']['normal'] ?? 0 }}</div>
+    </div>
   </div>
-  <div class="stat-card" style="--stat-color: #f59e0b; --stat-bg: rgba(245, 158, 11, 0.1);">
-    <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
-    <div class="stat-number">{{ ($data['status_gizi']['stunting'] ?? 0) + ($data['status_gizi']['underweight'] ?? 0) }}</div>
-    <div class="stat-label">Berisiko</div>
+  <div class="col-md-3">
+    <div class="summary-card-premium">
+      <div class="icon-circle-report bg-warning bg-opacity-10 text-warning"><i class="fas fa-triangle-exclamation"></i></div>
+      <div class="user-meta small mb-1">Butuh Perhatian</div>
+      <div class="h3 fw-800 text-warning mb-0">{{ ($data['status_gizi']['stunting'] ?? 0) + ($data['status_gizi']['underweight'] ?? 0) }}</div>
+    </div>
   </div>
-  <div class="stat-card" style="--stat-color: #ef4444; --stat-bg: rgba(239, 68, 68, 0.1);">
-    <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
-    <div class="stat-number">{{ $data['status_gizi']['gizi_buruk'] ?? 0 }}</div>
-    <div class="stat-label">Gizi Buruk</div>
+  <div class="col-md-3">
+    <div class="summary-card-premium">
+      <div class="icon-circle-report bg-danger bg-opacity-10 text-danger"><i class="fas fa-shield-virus"></i></div>
+      <div class="user-meta small mb-1">Gizi Buruk</div>
+      <div class="h3 fw-800 text-danger mb-0">{{ $data['status_gizi']['gizi_buruk'] ?? 0 }}</div>
+    </div>
   </div>
 </div>
 @endif
 
-<div class="chart-card">
-  <div class="chart-header">
-    <h5 class="chart-title"><i class="fas fa-chart-pie me-2"></i>{{ ucfirst($tipe) }} - {{ Carbon\Carbon::create()->month($bulan)->format('F') }} {{ $tahun }}</h5>
+<div class="card-custom border-0 shadow-sm mx-3 mb-5 overflow-hidden">
+  <div class="card-header-custom p-4 border-0">
+    <h5 class="mb-0 fw-800">Visualisasi Analitik</h5>
   </div>
-  <div class="chart-body">
-    @if($tipe == 'pemeriksaan' && isset($data['status_gizi']))
-    <canvas id="reportChart" height="100"></canvas>
+  <div class="card-body-custom p-4">
+    @if(isset($data['status_gizi']))
+      <div style="height: 400px; width: 100%;">
+        <canvas id="reportChartPremium"></canvas>
+      </div>
     @else
-    <div class="text-center py-5 text-muted">
-      <i class="fas fa-chart-simple fa-3x mb-3 d-block"></i>
-      <p>Grafik akan muncul berdasarkan data</p>
-    </div>
+      <div class="text-center py-5">
+        <i class="fas fa-chart-bar fa-4x opacity-10 mb-3"></i>
+        <p class="user-meta">Pilih parameter laporan untuk melihat grafik</p>
+      </div>
     @endif
   </div>
 </div>
+@endsection
 
-@if($tipe == 'pemeriksaan' && isset($data['status_gizi']))
-@section('scripts')
+@push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-  const ctx = document.getElementById('reportChart').getContext('2d');
+  @if(isset($data['status_gizi']))
+  const ctx = document.getElementById('reportChartPremium').getContext('2d');
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: {!! json_encode($data['status_gizi']->keys()->toArray()) !!},
+      labels: {!! json_encode($data['status_gizi']->keys()->toArray()) !!}.map(l => l.toUpperCase().replace('_', ' ')),
       datasets: [{
-        label: 'Jumlah',
+        label: 'Jumlah Anak',
         data: {!! json_encode($data['status_gizi']->values()->toArray()) !!},
-        backgroundColor: '#0ea5e9',
-        borderRadius: 8
+        backgroundColor: '#2E86AB',
+        borderRadius: 15,
+        maxBarThickness: 60
       }]
     },
     options: {
@@ -195,11 +169,11 @@
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+        y: { beginAtZero: true, grid: { color: '#f1f5f9', drawBorder: false } },
         x: { grid: { display: false } }
       }
     }
   });
+  @endif
 </script>
-@endsection
-@endif
+@endpush
