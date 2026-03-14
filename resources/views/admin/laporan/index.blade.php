@@ -167,7 +167,7 @@
     <canvas id="reportChart" height="100"></canvas>
     @else
     <div class="text-center py-5 text-muted">
-      <i class="fas fa-chart-simple fa-3x mb-3"></i>
+      <i class="fas fa-chart-simple fa-3x mb-3 d-block"></i>
       <p>Grafik akan muncul berdasarkan data</p>
     </div>
     @endif
@@ -182,10 +182,10 @@
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: {!! json_encode(array_keys($data['status_gizi']->toArray())) !!},
+      labels: {!! json_encode($data['status_gizi']->keys()->toArray()) !!},
       datasets: [{
         label: 'Jumlah',
-        data: {!! json_encode(array_values($data['status_gizi']->toArray())) !!},
+        data: {!! json_encode($data['status_gizi']->values()->toArray()) !!},
         backgroundColor: '#0ea5e9',
         borderRadius: 8
       }]
