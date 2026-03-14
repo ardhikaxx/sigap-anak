@@ -17,7 +17,7 @@ class AnakController extends Controller
     {
         $user = Auth::user();
         
-        $anak = Anak::where('status', 'aktif')
+        $anaks = Anak::where('status', 'aktif')
             ->where(function($query) use ($user) {
                 $query->where('ibu_id', $user->id)
                       ->orWhere('ayah_id', $user->id)
@@ -26,7 +26,7 @@ class AnakController extends Controller
             ->with('latestPemeriksaan')
             ->get();
         
-        return view('mobile.anak.index', compact('anak'));
+        return view('mobile.anak.index', compact('anaks'));
     }
 
     public function show(Anak $anak)
