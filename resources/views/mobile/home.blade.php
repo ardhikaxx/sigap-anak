@@ -4,62 +4,56 @@
 
 @push('styles')
 <style>
-  .premium-hero {
-    background: linear-gradient(135deg, #1A1D2E 0%, #2E86AB 50%, #57CC99 100%);
-    border-radius: 28px;
-    padding: 28px 24px;
+  .greeting-card {
+    background: linear-gradient(135deg, #2E86AB 0%, #1A5F7A 50%, #57CC99 100%);
+    border-radius: 24px;
+    padding: 24px;
     color: white;
     position: relative;
     overflow: hidden;
-    margin-bottom: 24px;
     box-shadow: 0 12px 32px rgba(46, 134, 171, 0.35);
   }
 
-  .premium-hero::before {
+  .greeting-card::before {
     content: '';
     position: absolute;
-    top: -40px;
-    right: -40px;
-    width: 140px;
-    height: 140px;
-    background: rgba(255,255,255,0.08);
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255,255,255,0.1);
     border-radius: 50%;
   }
 
-  .premium-hero::after {
+  .greeting-card::after {
     content: '';
     position: absolute;
-    bottom: -30px;
-    left: -30px;
-    width: 100px;
-    height: 100px;
-    background: rgba(87, 204, 153, 0.15);
+    bottom: -20px;
+    left: -20px;
+    width: 80px;
+    height: 80px;
+    background: rgba(87, 204, 153, 0.2);
     border-radius: 50%;
   }
 
-  .hero-content {
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-greeting {
-    font-size: 0.9rem;
-    opacity: 0.85;
-    margin-bottom: 4px;
+  .greeting-text {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-bottom: 2px;
     font-weight: 500;
   }
 
-  .hero-name {
-    font-size: 1.5rem;
+  .greeting-name {
+    font-size: 1.4rem;
     font-weight: 800;
     letter-spacing: -0.3px;
-    margin-bottom: 0;
+    margin: 0;
   }
 
-  .hero-avatar {
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
+  .greeting-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
     background: rgba(255,255,255,0.2);
     backdrop-filter: blur(10px);
     display: flex;
@@ -70,315 +64,315 @@
     border: 2px solid rgba(255,255,255,0.3);
   }
 
-  .menu-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 28px;
-  }
-
-  .menu-item {
-    background: white;
-    border-radius: 20px;
-    padding: 16px 8px;
-    text-align: center;
-    text-decoration: none;
-    color: var(--sigap-dark);
-    border: 1px solid var(--sigap-border);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  .quick-action-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    text-decoration: none;
+    padding: 14px 8px;
+    border-radius: 18px;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .menu-item:hover {
+  .quick-action-btn:hover {
     transform: translateY(-4px);
-    border-color: var(--sigap-primary);
-    box-shadow: 0 8px 20px rgba(46, 134, 171, 0.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
   }
 
-  .menu-item i {
-    font-size: 22px;
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
+  .action-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 20px;
     color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
 
-  .menu-item span {
-    font-size: 0.7rem;
+  .quick-action-btn span {
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.2px;
+    color: #374151;
   }
-
-  .menu-item.anak i { background: linear-gradient(135deg, #2E86AB, #1A5F7A); }
-  .menu-item.grafik i { background: linear-gradient(135deg, #57CC99, #38A169); }
-  .menu-item.konsultasi i { background: linear-gradient(135deg, #F6AD55, #DD6B20); }
-  .menu-item.makan i { background: linear-gradient(135deg, #9F7AEA, #6B46C1); }
 
   .section-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .section-title {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 800;
-    color: var(--sigap-dark);
+    color: #111827;
     display: flex;
     align-items: center;
     gap: 8px;
     margin: 0;
   }
 
-  .section-badge {
-    background: var(--sigap-primary);
+  .badge-count {
+    background: linear-gradient(135deg, #2E86AB, #1A5F7A);
     color: white;
     font-size: 0.7rem;
     font-weight: 700;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(46, 134, 171, 0.3);
   }
 
-  .child-card {
+  .mobile-anak-card {
     background: white;
-    border-radius: 22px;
-    padding: 18px;
+    border-radius: 20px;
+    padding: 16px;
     display: flex;
     align-items: center;
     gap: 14px;
     text-decoration: none;
     color: inherit;
     margin-bottom: 12px;
-    border: 1px solid var(--sigap-border);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    transition: all 0.3s ease;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: all 0.2s ease;
   }
 
-  .child-card:hover {
-    border-color: var(--sigap-primary-light);
-    transform: scale(1.01);
-    box-shadow: 0 8px 20px rgba(46, 134, 171, 0.12);
+  .mobile-anak-card:hover {
+    border-color: #2E86AB;
+    box-shadow: 0 4px 16px rgba(46, 134, 171, 0.12);
   }
 
-  .child-avatar {
+  .avatar-circle {
     width: 56px;
     height: 56px;
-    border-radius: 18px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: white;
     flex-shrink: 0;
   }
 
-  .child-avatar.laki { background: linear-gradient(135deg, #2E86AB, #1A5F7A); }
-  .child-avatar.perempuan { background: linear-gradient(135deg, #EC4899, #BE185D); }
+  .avatar-blue { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+  .avatar-pink { background: linear-gradient(135deg, #EC4899, #BE185D); }
+  .avatar-green { background: linear-gradient(135deg, #10B981, #059669); }
+  .avatar-purple { background: linear-gradient(135deg, #8B5CF6, #6D28D9); }
 
   .child-info { flex: 1; min-width: 0; }
 
   .child-name {
     font-size: 1.05rem;
     font-weight: 800;
-    color: var(--sigap-dark);
+    color: #111827;
     margin-bottom: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .child-age {
     font-size: 0.8rem;
-    color: var(--sigap-gray);
+    color: #6B7280;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-bottom: 8px;
   }
 
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
+  .badge-custom {
+    display: inline-block;
     padding: 4px 10px;
-    border-radius: 12px;
+    border-radius: 10px;
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.3px;
   }
 
-  .status-badge.normal { background: rgba(87, 204, 153, 0.15); color: #38A169; }
-  .status-badge.warning { background: rgba(246, 173, 85, 0.15); color: #DD6B20; }
-  .status-badge.danger { background: rgba(245, 101, 101, 0.15); color: #E53E3E; }
-  .status-badge.default { background: rgba(160, 174, 192, 0.15); color: #718096; }
+  .badge-normal { background: rgba(16, 185, 129, 0.12); color: #059669; }
+  .badge-warning { background: rgba(245, 158, 11, 0.12); color: #D97706; }
+  .badge-danger { background: rgba(239, 68, 68, 0.12); color: #DC2626; }
+  .badge-default { background: rgba(156, 163, 175, 0.12); color: #6B7280; }
+  .badge-info { background: rgba(59, 130, 246, 0.12); color: #2563EB; }
 
-  .chevron-icon {
-    color: #CBD5E0;
-    font-size: 1rem;
+  .chevron-right {
+    color: #D1D5DB;
+    font-size: 0.9rem;
   }
 
-  .schedule-card {
+  .card-custom {
     background: white;
     border-radius: 18px;
-    padding: 14px;
-    margin-bottom: 10px;
-    border: 1px solid var(--sigap-border);
+    border: 1px solid #E5E7EB;
+    overflow: hidden;
+  }
+
+  .schedule-item {
     display: flex;
     align-items: center;
     gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #F3F4F6;
   }
+
+  .schedule-item:last-child { border-bottom: none; }
 
   .schedule-icon {
     width: 44px;
     height: 44px;
-    border-radius: 14px;
-    background: rgba(87, 204, 153, 0.12);
+    border-radius: 12px;
+    background: rgba(16, 185, 129, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--sigap-secondary);
-    font-size: 1.1rem;
+    color: #059669;
+    font-size: 1rem;
   }
 
-  .schedule-info { flex: 1; }
+  .schedule-content { flex: 1; }
 
   .schedule-title {
     font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--sigap-dark);
+    font-size: 0.9rem;
+    color: #111827;
     margin-bottom: 2px;
   }
 
   .schedule-time {
     font-size: 0.75rem;
-    color: var(--sigap-gray);
+    color: #6B7280;
   }
 
   .empty-state {
     background: white;
-    border-radius: 24px;
-    padding: 48px 24px;
+    border-radius: 20px;
+    padding: 40px 24px;
     text-align: center;
-    border: 1px solid var(--sigap-border);
+    border: 1px solid #E5E7EB;
   }
 
   .empty-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 24px;
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
     background: linear-gradient(135deg, rgba(46, 134, 171, 0.1), rgba(87, 204, 153, 0.1));
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 16px;
-    font-size: 2rem;
-    color: var(--sigap-primary);
+    margin: 0 auto 14px;
+    font-size: 1.75rem;
+    color: #2E86AB;
   }
 
   .empty-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 800;
-    color: var(--sigap-dark);
+    color: #111827;
     margin-bottom: 4px;
   }
 
   .empty-text {
     font-size: 0.85rem;
-    color: var(--sigap-gray);
+    color: #6B7280;
   }
 
   .article-card {
-    background: white;
-    border-radius: 18px;
-    padding: 16px;
     display: flex;
     align-items: center;
     gap: 12px;
+    padding: 14px 16px;
     text-decoration: none;
     color: inherit;
-    margin-bottom: 10px;
-    border: 1px solid var(--sigap-border);
-    transition: all 0.2s;
+    border-bottom: 1px solid #F3F4F6;
   }
 
-  .article-card:hover {
-    border-color: var(--sigap-primary-light);
-    transform: translateX(4px);
-  }
+  .article-card:last-child { border-bottom: none; }
 
   .article-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, rgba(159, 122, 234, 0.15), rgba(107, 70, 193, 0.15));
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(109, 40, 217, 0.1));
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6B46C1;
-    font-size: 1.1rem;
+    color: #7C3AED;
+    font-size: 1rem;
     flex-shrink: 0;
   }
 
+  .article-content { flex: 1; min-width: 0; }
+
   .article-title {
     font-weight: 700;
-    font-size: 0.9rem;
-    color: var(--sigap-dark);
-    flex: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    font-size: 0.85rem;
+    color: #111827;
+    margin-bottom: 4px;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .article-badge {
-    font-size: 0.65rem;
-    font-weight: 700;
+  .article-category {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #7C3AED;
+    background: rgba(139, 92, 246, 0.1);
     padding: 3px 8px;
-    border-radius: 8px;
-    background: rgba(159, 122, 234, 0.12);
-    color: #6B46C1;
-    text-transform: uppercase;
+    border-radius: 6px;
   }
 </style>
 @endpush
 
 @section('content')
 <div class="mobile-content">
-  <div class="premium-hero mb-4">
-    <div class="hero-content d-flex justify-content-between align-items-center">
+  <div class="greeting-card mb-4">
+    <div class="d-flex justify-content-between align-items-center">
       <div>
-        <p class="hero-greeting">{{ $greeting }}</p>
-        <h1 class="hero-name">{{ $user->name }}</h1>
+        <p class="greeting-text">{{ $greeting }},</p>
+        <h1 class="greeting-name">{{ $user->name }}</h1>
       </div>
-      <div class="hero-avatar">{{ substr($user->name, 0, 1) }}</div>
+      <div class="greeting-avatar">{{ substr($user->name, 0, 1) }}</div>
     </div>
   </div>
 
-  <div class="menu-grid">
-    <a href="{{ route('mobile.anak.index') }}" class="menu-item anak">
-      <i class="fas fa-child"></i>
-      <span>Anak Saya</span>
-    </a>
-    <a href="{{ route('mobile.grafik.index') }}" class="menu-item grafik">
-      <i class="fas fa-chart-line"></i>
-      <span>Grafik</span>
-    </a>
-    <a href="{{ route('mobile.konsultasi.index') }}" class="menu-item konsultasi">
-      <i class="fas fa-comments"></i>
-      <span>Konsultasi</span>
-    </a>
-    <a href="#" class="menu-item makan">
-      <i class="fas fa-utensils"></i>
-      <span>Makan</span>
-    </a>
+  <div class="row g-2 mb-4">
+    <div class="col-3">
+      <a href="{{ route('mobile.anak.index') }}" class="quick-action-btn">
+        <div class="action-icon" style="background: linear-gradient(135deg, #2E86AB, #1A5F7A);">
+          <i class="fas fa-child"></i>
+        </div>
+        <span>Anak Saya</span>
+      </a>
+    </div>
+    <div class="col-3">
+      <a href="{{ route('mobile.grafik.index') }}" class="quick-action-btn">
+        <div class="action-icon" style="background: linear-gradient(135deg, #10B981, #059669);">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <span>Grafik</span>
+      </a>
+    </div>
+    <div class="col-3">
+      <a href="{{ route('mobile.konsultasi.index') }}" class="quick-action-btn">
+        <div class="action-icon" style="background: linear-gradient(135deg, #F59E0B, #D97706);">
+          <i class="fas fa-comments"></i>
+        </div>
+        <span>Konsultasi</span>
+      </a>
+    </div>
+    <div class="col-3">
+      <a href="#" class="quick-action-btn">
+        <div class="action-icon" style="background: linear-gradient(135deg, #8B5CF6, #6D28D9);">
+          <i class="fas fa-utensils"></i>
+        </div>
+        <span>Makan</span>
+      </a>
+    </div>
   </div>
 
   @if($anak->count() > 0)
@@ -386,32 +380,32 @@
     <h4 class="section-title">
       <i class="fas fa-child text-primary"></i> Anak Saya
     </h4>
-    <span class="section-badge">{{ $anak->count() }} Anak</span>
+    <span class="badge-count">{{ $anak->count() }} Anak</span>
   </div>
   
   @foreach($anak as $item)
-  <a href="{{ route('mobile.anak.show', $item->id) }}" class="child-card">
-    <div class="child-avatar {{ $item->jenis_kelamin == 'L' ? 'laki' : 'perempuan' }}">
+  <a href="{{ route('mobile.anak.show', $item->id) }}" class="mobile-anak-card">
+    <div class="avatar-circle avatar-{{ $item->jenis_kelamin == 'L' ? 'blue' : 'pink' }}">
       {{ substr($item->nama, 0, 1) }}
     </div>
     <div class="child-info">
-      <h5 class="child-name">{{ $item->nama }}</h5>
+      <h4 class="child-name">{{ $item->nama }}</h4>
       <div class="child-age">
         <i class="fas fa-birthday-cake"></i>
         {{ \Carbon\Carbon::parse($item->tanggal_lahir)->diffInMonths(now()) }} Bulan
         <span>•</span>
         <i class="fas fa-{{ $item->jenis_kelamin == 'L' ? 'mars' : 'venus' }}"></i>
-        {{ $item->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}
+        {{ $item->jenis_kelamin == 'L' ? 'Laki' : 'Perempuan' }}
       </div>
       @if($item->latestPemeriksaan && $item->latestPemeriksaan->status_gizi_akhir)
-      <span class="status-badge @if($item->latestPemeriksaan->status_gizi_akhir == 'normal') normal @elseif($item->latestPemeriksaan->status_gizi_akhir == 'gizi_buruk' || $item->latestPemeriksaan->status_gizi_akhir == 'wasting') danger @else warning @endif">
+      <span class="badge-custom @if($item->latestPemeriksaan->status_gizi_akhir == 'normal') badge-normal @elseif($item->latestPemeriksaan->status_gizi_akhir == 'gizi_buruk' || $item->latestPemeriksaan->status_gizi_akhir == 'wasting') badge-danger @else badge-warning @endif">
         {{ ucfirst(str_replace('_', ' ', $item->latestPemeriksaan->status_gizi_akhir)) }}
       </span>
       @else
-      <span class="status-badge default">Belum Periksa</span>
+      <span class="badge-custom badge-default">Belum Periksa</span>
       @endif
     </div>
-    <i class="fas fa-chevron-right chevron-icon"></i>
+    <i class="fas fa-chevron-right chevron-right"></i>
   </a>
   @endforeach
   @else
@@ -424,35 +418,41 @@
 
   @if($jadwalMendatang->count() > 0)
   <h4 class="section-title mb-3 mt-4">
-    <i class="fas fa-calendar-check text-secondary"></i> Jadwal Posyandu
+    <i class="fas fa-calendar-check" style="color: #10B981;"></i> Jadwal Posyandu
   </h4>
-  @foreach($jadwalMendatang->take(3) as $jadwal)
-  <div class="schedule-card">
-    <div class="schedule-icon">
-      <i class="fas fa-calendar-day"></i>
+  <div class="card-custom">
+    @foreach($jadwalMendatang->take(3) as $jadwal)
+    <div class="schedule-item">
+      <div class="schedule-icon">
+        <i class="fas fa-calendar-day"></i>
+      </div>
+      <div class="schedule-content">
+        <div class="schedule-title">{{ $jadwal->tema ?? 'Posyandu' }}</div>
+        <div class="schedule-time">{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d M Y') }} • {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }}</div>
+      </div>
+      <i class="fas fa-angle-right text-muted"></i>
     </div>
-    <div class="schedule-info">
-      <div class="schedule-title">{{ $jadwal->tema ?? 'Posyandu' }}</div>
-      <div class="schedule-time">{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d M Y') }} • {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }}</div>
-    </div>
-    <i class="fas fa-angle-right text-muted"></i>
+    @endforeach
   </div>
-  @endforeach
   @endif
 
   @if($artikel->count() > 0)
   <h4 class="section-title mb-3 mt-4">
-    <i class="fas fa-book-medical text-info"></i> Artikel Edukasi
+    <i class="fas fa-book-medical" style="color: #8B5CF6;"></i> Artikel Edukasi
   </h4>
-  @foreach($artikel->take(3) as $article)
-  <a href="#" class="article-card">
-    <div class="article-icon">
-      <i class="fas fa-book-open"></i>
-    </div>
-    <div class="article-title">{{ $article->judul }}</div>
-    <span class="article-badge">{{ ucfirst($article->kategori) }}</span>
-  </a>
-  @endforeach
+  <div class="card-custom">
+    @foreach($artikel->take(3) as $article)
+    <a href="#" class="article-card">
+      <div class="article-icon">
+        <i class="fas fa-book-open"></i>
+      </div>
+      <div class="article-content">
+        <div class="article-title">{{ $article->judul }}</div>
+      </div>
+      <span class="article-category">{{ ucfirst($article->kategori) }}</span>
+    </a>
+    @endforeach
+  </div>
   @endif
 </div>
 @endsection
