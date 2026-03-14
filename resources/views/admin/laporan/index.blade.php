@@ -137,22 +137,22 @@
 <div class="stats-grid">
   <div class="stat-card" style="--stat-color: #0ea5e9; --stat-bg: rgba(14, 165, 233, 0.1);">
     <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
-    <div class="stat-number">{{ $data['total'] }}</div>
+    <div class="stat-number">{{ $data['total'] ?? 0 }}</div>
     <div class="stat-label">Total Pemeriksaan</div>
   </div>
   <div class="stat-card" style="--stat-color: #22c55e; --stat-bg: rgba(34, 197, 94, 0.1);">
     <div class="stat-icon"><i class="fas fa-check"></i></div>
-    <div class="stat-number">{{ $data['normal'] }}</div>
+    <div class="stat-number">{{ $data['status_gizi']['normal'] ?? 0 }}</div>
     <div class="stat-label">Gizi Normal</div>
   </div>
   <div class="stat-card" style="--stat-color: #f59e0b; --stat-bg: rgba(245, 158, 11, 0.1);">
     <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
-    <div class="stat-number">{{ $data['stunting'] + $data['underweight'] }}</div>
+    <div class="stat-number">{{ ($data['status_gizi']['stunting'] ?? 0) + ($data['status_gizi']['underweight'] ?? 0) }}</div>
     <div class="stat-label">Berisiko</div>
   </div>
   <div class="stat-card" style="--stat-color: #ef4444; --stat-bg: rgba(239, 68, 68, 0.1);">
     <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
-    <div class="stat-number">{{ $data['gizi_buruk'] }}</div>
+    <div class="stat-number">{{ $data['status_gizi']['gizi_buruk'] ?? 0 }}</div>
     <div class="stat-label">Gizi Buruk</div>
   </div>
 </div>
@@ -163,12 +163,18 @@
     <h5 class="chart-title"><i class="fas fa-chart-pie me-2"></i>{{ ucfirst($tipe) }} - {{ Carbon\Carbon::create()->month($bulan)->format('F') }} {{ $tahun }}</h5>
   </div>
   <div class="chart-body">
+    @if($tipe == 'pemeriksaan' && isset($data['status_gizi']))
     <canvas id="reportChart" height="100"></canvas>
+    @else
+    <div class="text-center py-5 text-muted">
+      <i class="fas fa-chart-simple fa-3x mb-3"></i>
+      <p>Grafik akan muncul berdasarkan data</p>
+    </div>
+    @endif
   </div>
 </div>
 
-@endsection
-
+@if($tipe == 'pemeriksaan' && isset($data['status_gizi']))
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
@@ -176,10 +182,10 @@
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: {!! json_encode($chartLabels) !!},
+      labels: {!! json_encode(array_keys($data['status_gizi']->toArray())) !!},
       datasets: [{
         label: 'Jumlah',
-        data: {!! json_encode($chartData) !!},
+        data: {!! json_encode(array_values($data['status_gizi']->toArray())) !!},
         backgroundColor: '#0ea5e9',
         borderRadius: 8
       }]
@@ -196,3 +202,4 @@
   });
 </script>
 @endsection
+@endif
