@@ -52,4 +52,19 @@ class HomeController extends Controller
         if ($hour < 18) return 'Selamat Sore';
         return 'Selamat Malam';
     }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        
+        $anakCount = Anak::where('status', 'aktif')
+            ->where(function($query) use ($user) {
+                $query->where('ibu_id', $user->id)
+                      ->orWhere('ayah_id', $user->id)
+                      ->orWhere('wali_id', $user->id);
+            })
+            ->count();
+
+        return view('mobile.profile.index', compact('user', 'anakCount'));
+    }
 }
