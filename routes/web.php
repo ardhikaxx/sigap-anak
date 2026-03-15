@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('mobile')->group(function () {
         Route::get('/home', [HomeController::class, 'index'])->name('mobile.home');
+        Route::get('profile', [HomeController::class, 'profile'])->name('mobile.profile.index');
         
         Route::get('anak', [MobileAnakController::class, 'index'])->name('mobile.anak.index');
         Route::get('anak/{anak}', [MobileAnakController::class, 'show'])->name('mobile.anak.show');
