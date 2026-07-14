@@ -1,4 +1,4 @@
-# SIGAP Anak
+﻿# SIGAP Anak
 
 <p align="center">
   <img src="https://img.shields.io/badge/Laravel-12.x-red?style=for-the-badge&logo=laravel" alt="Laravel">
@@ -176,7 +176,7 @@ Jika project ini bermanfaat, Anda dapat mendukung pengembangan selanjutnya melal
 
 <div align="center">
 
-![QRIS](public/assets/qris.png)
+<img src="public/assets/qris.png" alt="QRIS" width="250" />
 
 **Scan QRIS di atas untuk berdonasi**
 
